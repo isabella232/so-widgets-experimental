@@ -16,6 +16,7 @@ function loadMap($) {
 
                 map = new google.maps.Map($$.get(0), {
                     zoom: zoom,
+                    scrollwheel: Boolean($$.attr('data-scroll-zoom')),
                     center: results[0].geometry.location,
                     mapTypeId: google.maps.MapTypeId.ROADMAP
                 });

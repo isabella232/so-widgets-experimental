@@ -32,7 +32,13 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 				'zoom'   => array(
 					'type'  => 'text',
 					'label' => __( 'Zoom Level', 'siteorigin-widgets' ),
-					'description' => __('A value from 0 (the world) to 21 (street level).')
+					'description' => __('A value from 0 (the world) to 21 (street level).', 'siteorigin-widgets')
+				),
+				'scroll_zoom' => array(
+					'type'  => 'checkbox',
+					'default' => false,
+					'label' => __('Enable scroll to zoom', 'siteorigin-widgets'),
+					'description' => __('Allow scrolling over the map to zoom in or out.', 'siteorigin-widgets')
 				)
 			)
 		);
@@ -55,7 +61,8 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 			'place'  => esc_attr( $instance['place'] ),
 			'map_id' => md5( $instance['place'] ),
 			'height' => empty( $instance['height'] ) ? 450 : esc_attr( $instance['height'] ),
-			'zoom'   => esc_attr( $instance['zoom'] )
+			'zoom'   => esc_attr( $instance['zoom'] ),
+			'scroll_zoom' => esc_attr( $instance['scroll_zoom'] )
 		);
 	}
 }
