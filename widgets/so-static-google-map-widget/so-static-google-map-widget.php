@@ -1,4 +1,5 @@
 <?php
+
 /*
 Widget Name: Static Google Maps Widget
 Description: A simple Google Map with customisable initial location and zoom level
@@ -17,15 +18,13 @@ class SiteOrigin_Widget_StaticGoogleMap_Widget extends SiteOrigin_Widget {
 				'description' => __( 'A Static Google Maps widget.', 'siteorigin-widgets' ),
 				'help'        => 'http://siteorigin.com/widgets-bundle/google-maps-widget-documentation/'
 			),
+			array(),
 			array(
-
-			),
-			array(
-				'place' => array(
+				'place'  => array(
 					'type'  => 'text',
 					'label' => __( 'Place', 'siteorigin-widgets' )
 				),
-				'width' => array(
+				'width'  => array(
 					'type'  => 'text',
 					'label' => __( 'Width', 'siteorigin-widgets' )
 				),
@@ -33,7 +32,7 @@ class SiteOrigin_Widget_StaticGoogleMap_Widget extends SiteOrigin_Widget {
 					'type'  => 'text',
 					'label' => __( 'Height', 'siteorigin-widgets' )
 				),
-				'zoom' => array(
+				'zoom'   => array(
 					'type'  => 'text',
 					'label' => __( 'Zoom Level', 'siteorigin-widgets' )
 				)
@@ -41,20 +40,20 @@ class SiteOrigin_Widget_StaticGoogleMap_Widget extends SiteOrigin_Widget {
 		);
 	}
 
-	function get_template_name($instance) {
+	function get_template_name( $instance ) {
 		return 'static-map';
 	}
 
-	function get_style_name($instance) {
+	function get_style_name( $instance ) {
 		return '';
 	}
 
 	function get_template_variables( $instance, $args ) {
-		$width = empty( $instance['width'] ) ? 600 : $instance['width'];
+		$width  = empty( $instance['width'] ) ? 600 : $instance['width'];
 		$height = empty( $instance['height'] ) ? 450 : $instance['height'];
 
 		$src_url = "https://maps.googleapis.com/maps/api/staticmap?";
-        $src_url .= "center=" . $instance['place'];
+		$src_url .= "center=" . $instance['place'];
 		$src_url .= "&zoom=" . $instance['zoom'];
 		$src_url .= "&size=" . $width . "x" . $height;
 
@@ -64,4 +63,4 @@ class SiteOrigin_Widget_StaticGoogleMap_Widget extends SiteOrigin_Widget {
 	}
 }
 
-siteorigin_widget_register('static-google-map', __FILE__);
+siteorigin_widget_register( 'static-google-map', __FILE__ );
