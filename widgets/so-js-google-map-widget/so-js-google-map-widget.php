@@ -55,6 +55,8 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 					'type'      => 'repeater',
 					'label'     => __( 'Custom Map Styles', 'siteorigin-widgets' ),
 					'item_name' => __( 'Style', 'siteorigin-widgets' ),
+					'item_label_selector' => "[name*='map_feature'] :selected",
+					'item_label_update_event' => 'change',
 					'fields'    => array(
 						'map_feature' => array(
 							'type'    => 'select',
@@ -200,7 +202,7 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 	function get_template_variables( $instance, $args ) {
 		$mrkr_src      = wp_get_attachment_image_src( $instance['marker_icon'] );
 		$styles_string = '';
-		if ( isset( $instance['custom_map_styles'] ) ) {
+		if ( !empty( $instance['custom_map_styles'] ) ) {
 			$map_styles = $instance['custom_map_styles'];
 			$styles     = array();
 			foreach ( $map_styles as $style_item ) {
