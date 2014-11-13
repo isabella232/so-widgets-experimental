@@ -157,7 +157,6 @@ class SiteOrigin_Widget_EmbeddedGoogleMaps_Widget extends SiteOrigin_Widget {
 						'satellite' => __( 'Satellite', 'siteorigin-widgets' )
 					)
 				),
-				//might leave these last two out...
 				'language'   => array(
 					'type'  => 'text',
 					'label' => __( 'Language', 'siteorigin-widgets' )

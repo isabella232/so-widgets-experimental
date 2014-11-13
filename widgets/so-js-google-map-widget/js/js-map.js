@@ -14,16 +14,35 @@ function loadMap($) {
                 var zoom = Number($$.attr('data-zoom'));
                 if (zoom == undefined) zoom = 14;
 
-                map = new google.maps.Map($$.get(0), {
+                var userMapTypeId = 'user_map_style';
+
+                var mapOptions = {
                     zoom: zoom,
                     scrollwheel: Boolean($$.attr('data-scroll-zoom')),
                     center: results[0].geometry.location,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                });
+                    mapTypeControlOptions: {
+                        mapTypeIds: [google.maps.MapTypeId.ROADMAP, userMapTypeId]
+                    }
+                };
+
+                var map = new google.maps.Map($$.get(0), mapOptions);
+
+                var userMapOptions = {
+                    name: 'Custom Map'
+                };
+
+                var userMapStyles = JSON.parse($$.attr('data-map-styles'));
+
+                var userMapType = new google.maps.StyledMapType( userMapStyles, userMapOptions);
+
+                map.mapTypes.set(userMapTypeId, userMapType);
+                map.setMapTypeId(userMapTypeId);
 
                 var marker = new google.maps.Marker({
                     position: results[0].geometry.location,
                     map: map,
+                    draggable: Boolean($$.attr('data-marker-draggable')),
+                    icon: $$.attr('data-marker-icon'),
                     title: ''
                 });
             }
