@@ -55,8 +55,11 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 					'type'      => 'repeater',
 					'label'     => __( 'Custom Map Styles', 'siteorigin-widgets' ),
 					'item_name' => __( 'Style', 'siteorigin-widgets' ),
-					'item_label_selector' => "[name*='map_feature'] :selected",
-					'item_label_update_event' => 'change',
+					'item_label' => array(
+						'selector' => "[id*='custom_map_styles-map_feature'] :selected",
+						'update_event' => 'change',
+						'value_method' => 'text'
+					),
 					'fields'    => array(
 						'map_feature' => array(
 							'type'    => 'select',
@@ -92,97 +95,6 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 						)
 					)
 				)
-//				'custom_map_styles' => array(
-//					'type'   => 'section',
-//					'label'  => __( 'Custom Map Styles', 'siteorigin-widgets' ),
-//					'hide'   => true,
-//					'fields' => array(
-//						'road_highway'  => array(
-//							'type'   => 'section',
-//							'hide'   => true,
-//							'label'  => __( 'Highways', 'siteorigin-widgets' ),
-//							'fields' => array(
-//								'visibility' => array(
-//									'type'    => 'radio',
-//									'default' => 'on',
-//									'label'   => __( 'Visibility', 'siteorigin-widgets' ),
-//									'options' => array(
-//										'on'      => __( 'On', 'siteorigin-widgets' ),
-//										'simplified' => __( 'Simplified', 'siteorigin-widgets' ),
-//										'off'     => __( 'Off', 'siteorigin-widgets' )
-//									)
-//								),
-//								'color'      => array(
-//									'type'  => 'color',
-//									'label' => __( 'Color', 'siteorigin-widgets' )
-//								),
-//							)
-//						),
-//						'road_arterial' => array(
-//							'type'   => 'section',
-//							'hide'   => true,
-//							'label'  => __( 'Arterial roads', 'siteorigin-widgets' ),
-//							'fields' => array(
-//								'visibility' => array(
-//									'type'    => 'radio',
-//									'default' => 'on',
-//									'label'   => __( 'Visibility', 'siteorigin-widgets' ),
-//									'options' => array(
-//										'on'      => __( 'On', 'siteorigin-widgets' ),
-//										'simplified' => __( 'Simplified', 'siteorigin-widgets' ),
-//										'off'     => __( 'Off', 'siteorigin-widgets' )
-//									)
-//								),
-//								'color'      => array(
-//									'type'  => 'color',
-//									'label' => __( 'Color', 'siteorigin-widgets' )
-//								),
-//							)
-//						),
-//						'road_local'    => array(
-//							'type'   => 'section',
-//							'hide'   => true,
-//							'label'  => __( 'Local roads', 'siteorigin-widgets' ),
-//							'fields' => array(
-//								'visibility' => array(
-//									'type'    => 'radio',
-//									'default' => 'on',
-//									'label'   => __( 'Visibility', 'siteorigin-widgets' ),
-//									'options' => array(
-//										'on'      => __( 'On', 'siteorigin-widgets' ),
-//										'simplified' => __( 'Simplified', 'siteorigin-widgets' ),
-//										'off'     => __( 'Off', 'siteorigin-widgets' )
-//									)
-//								),
-//								'color'      => array(
-//									'type'  => 'color',
-//									'label' => __( 'Color', 'siteorigin-widgets' )
-//								),
-//							)
-//						),
-//						'water'         => array(
-//							'type'   => 'section',
-//							'hide'   => true,
-//							'label'  => __( 'Water', 'siteorigin-widgets' ),
-//							'fields' => array(
-//								'visibility' => array(
-//									'type'    => 'radio',
-//									'default' => 'on',
-//									'label'   => __( 'Visibility', 'siteorigin-widgets' ),
-//									'options' => array(
-//										'on'      => __( 'On', 'siteorigin-widgets' ),
-//										'simplified' => __( 'Simplified', 'siteorigin-widgets' ),
-//										'off'     => __( 'Off', 'siteorigin-widgets' )
-//									)
-//								),
-//								'color'      => array(
-//									'type'  => 'color',
-//									'label' => __( 'Color', 'siteorigin-widgets' )
-//								)
-//							)
-//						)
-//					)
-//				),
 			)
 		);
 	}
@@ -227,24 +139,6 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 
 			$styles_string = json_encode( $styles );
 		}
-//		$map_styles    = $instance['custom_map_styles'];
-//		$styles_object = array();
-//		foreach ( $map_styles as $map_feature => $styles ) {
-//			$stylers = array();
-//			foreach ( $styles as $style_name => $style_value ) {
-//				if ( $style_value !== '' && ! is_null( $style_value ) ) {
-//					array_push( $stylers, array( $style_name => $style_value ) );
-//				}
-//			}
-//
-//			array_push( $styles_object, array(
-//				'featureType' => str_replace( '_', '.', $map_feature ),
-//				'elementType' => 'geometry',
-//				'stylers'     => $stylers
-//			) );
-//		}
-
-//		$styles_string = json_encode( $styles_object );
 
 		return array(
 			'place'            => esc_attr( $instance['place'] ),
