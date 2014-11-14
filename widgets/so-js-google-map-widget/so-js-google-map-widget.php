@@ -52,16 +52,16 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 					'label'   => __( 'Draggable marker', 'siteorigin-widgets' )
 				),
 				'custom_map_styles' => array(
-					'type'      => 'repeater',
-					'label'     => __( 'Custom Map Styles', 'siteorigin-widgets' ),
-					'item_name' => __( 'Style', 'siteorigin-widgets' ),
+					'type'       => 'repeater',
+					'label'      => __( 'Custom Map Styles', 'siteorigin-widgets' ),
+					'item_name'  => __( 'Style', 'siteorigin-widgets' ),
 					'item_label' => array(
-						'selector' => "[id*='custom_map_styles-map_feature'] :selected",
+						'selector'     => "[id*='custom_map_styles-map_feature'] :selected",
 						'update_event' => 'change',
 						'value_method' => 'text'
 					),
-					'fields'    => array(
-						'map_feature' => array(
+					'fields'     => array(
+						'map_feature'  => array(
 							'type'    => 'select',
 							'label'   => __( 'Select map feature to style', 'siteorigin-widgets' ),
 							'options' => array(
@@ -84,12 +84,21 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 								'poi_sports-complex'          => __( 'Point of interest - Sports complexes', 'siteorigin-widgets' ),
 							)
 						),
-						'visibility'  => array(
+						'element_type' => array(
+							'type'    => 'select',
+							'label'   => __( 'Select element type to style', 'siteorigin-widgets' ),
+							'options' => array(
+								'geometry' => __( 'Geometry', 'siteorigin-widgets' ),
+								'labels'   => __( 'Labels', 'siteorigin-widgets' ),
+								'all'      => __( 'All', 'siteorigin-widgets' ),
+							)
+						),
+						'visibility'   => array(
 							'type'    => 'checkbox',
 							'default' => true,
 							'label'   => __( 'Visible', 'siteorigin-widgets' )
 						),
-						'color'       => array(
+						'color'        => array(
 							'type'  => 'color',
 							'label' => __( 'Color', 'siteorigin-widgets' )
 						)
@@ -114,12 +123,14 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 	function get_template_variables( $instance, $args ) {
 		$mrkr_src      = wp_get_attachment_image_src( $instance['marker_icon'] );
 		$styles_string = '';
-		if ( !empty( $instance['custom_map_styles'] ) ) {
+		if ( ! empty( $instance['custom_map_styles'] ) ) {
 			$map_styles = $instance['custom_map_styles'];
 			$styles     = array();
 			foreach ( $map_styles as $style_item ) {
 				$map_feature = $style_item['map_feature'];
 				unset( $style_item['map_feature'] );
+				$element_type = $style_item['element_type'];
+				unset( $style_item['element_type'] );
 
 				$stylers = array();
 				foreach ( $style_item as $style_name => $style_value ) {
@@ -132,7 +143,7 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 				$map_feature = str_replace( '-', '_', $map_feature );
 				array_push( $styles, array(
 					'featureType' => $map_feature,
-					'elementType' => 'geometry',
+					'elementType' => $element_type,
 					'stylers'     => $stylers
 				) );
 			}
