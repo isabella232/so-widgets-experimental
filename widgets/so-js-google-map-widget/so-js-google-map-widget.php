@@ -34,10 +34,15 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 					'label'       => __( 'Zoom Level', 'siteorigin-widgets' ),
 					'description' => __( 'A value from 0 (the world) to 21 (street level).', 'siteorigin-widgets' )
 				),
+				'static'            => array(
+					'type'    => 'checkbox',
+					'default' => false,
+					'label'   => __( 'Static Image', 'siteorigin-widgets' )
+				),
 				'scroll_zoom'       => array(
 					'type'        => 'checkbox',
 					'default'     => true,
-					'label'       => __( 'Enable scroll to zoom', 'siteorigin-widgets' ),
+					'label'       => __( 'Scroll to zoom', 'siteorigin-widgets' ),
 					'description' => __( 'Allow scrolling over the map to zoom in or out.', 'siteorigin-widgets' )
 				),
 				'marker_icon'       => array(
@@ -50,6 +55,19 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 					'type'    => 'checkbox',
 					'default' => true,
 					'label'   => __( 'Draggable marker', 'siteorigin-widgets' )
+				),
+				'preset_map_styles' => array(
+					'type'    => 'select',
+					'label'   => __( 'Preset map styles', 'siteorigin-widgets' ),
+					'options' => array(
+						'none'       => __( 'None', 'siteorigin-widgets' ),
+						'apocalypse' => __( 'Apocalypse', 'siteorigin-widgets' ),
+						'grayscale'  => __( 'Grayscale', 'siteorigin-widgets' ),
+					)
+				),
+				'custom_map_name'   => array(
+					'type'  => 'text',
+					'label' => __( 'Custom map name', 'siteorigin-widgets' )
 				),
 				'custom_map_styles' => array(
 					'type'       => 'repeater',
@@ -103,9 +121,18 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 							'label' => __( 'Color', 'siteorigin-widgets' )
 						)
 					)
-				)
+				),
+				'api_key'           => array(
+					'type'        => 'text',
+					'label'       => __( 'API Key', 'siteorigin-widgets' ),
+					'description' => __( 'Enter your API key if you have one. This enables you to monitor your Maps API usage in the Google APIs Console.', 'siteorigin-widgets' )
+				),
 			)
 		);
+	}
+
+	function enqueue_admin_scripts() {
+		wp_enqueue_script( 'sow-js-google-map', siteorigin_widget_get_plugin_dir_url( 'js-google-map' ) . 'js/js-map-admin.js', array( 'jquery' ), SOW_BUNDLE_VERSION );
 	}
 
 	function enqueue_frontend_scripts() {
@@ -113,17 +140,25 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 	}
 
 	function get_template_name( $instance ) {
-		return 'js-map';
+		return $instance['static'] ? 'static-map' : 'js-map';
 	}
 
 	function get_style_name( $instance ) {
-		return 'js-map';
+		return $instance['static'] ? '' : 'js-map';
 	}
 
 	function get_template_variables( $instance, $args ) {
 		$mrkr_src      = wp_get_attachment_image_src( $instance['marker_icon'] );
+		$height = ! empty( $instance['height'] ) ? esc_attr( $instance['height'] ) : 450;
+		$src_url = '';
 		$styles_string = '';
-		if ( ! empty( $instance['custom_map_styles'] ) ) {
+		$map_name      = '';
+		if ( ! empty( $instance['preset_map_styles'] ) && $instance['preset_map_styles'] != 'none' ) {
+			$preset_name   = $instance['preset_map_styles'];
+			$map_name      = ucwords( $preset_name );
+			$styles_string = file_get_contents( siteorigin_widget_get_plugin_dir_path( 'js-google-map' ) . 'map-styles/' . $preset_name . '.json' );
+		} else if ( ! empty( $instance['custom_map_styles'] ) ) {
+			$map_name   = 'Custom Map';
 			$map_styles = $instance['custom_map_styles'];
 			$styles     = array();
 			foreach ( $map_styles as $style_item ) {
@@ -151,16 +186,68 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 			$styles_string = json_encode( $styles );
 		}
 
-		return array(
-			'place'            => esc_attr( $instance['place'] ),
-			'map_id'           => md5( $instance['place'] ),
-			'height'           => ! empty( $instance['height'] ) ? esc_attr( $instance['height'] ) : 450,
-			'zoom'             => esc_attr( $instance['zoom'] ),
-			'scroll_zoom'      => esc_attr( $instance['scroll_zoom'] ),
-			'marker_icon'      => ! empty( $mrkr_src ) ? esc_attr( $mrkr_src[0] ) : '',
-			'marker_draggable' => esc_attr( $instance['marker_draggable'] ),
-			'map_styles'       => esc_attr( $styles_string )
-		);
+		if ( $instance['static'] ) {
+			$src_url = "https://maps.googleapis.com/maps/api/staticmap?";
+			$src_url .= "center=" . $instance['place'];
+			$src_url .= "&zoom=" . $instance['zoom'];
+			$src_url .= "&size=" . $height . "x" . $height;
+			if ( ! empty( $styles_string ) ) {
+				$styles = json_decode( $styles_string , true);
+				foreach ( $styles as $st ) {
+					$st_string = '';
+					if ( isset ( $st['featureType'] ) ) {
+						$st_string .= 'feature:' . $st['featureType'];
+					}
+					if ( isset ( $st['elementType'] ) ) {
+						if( !empty( $st_string ) ) {
+							$st_string .= "|";
+						}
+						$st_string .= 'element:' . $st['elementType'];
+					}
+					foreach ( $st['stylers'] as $style_prop_arr ) {
+						foreach ($style_prop_arr as $prop_name => $prop_val ) {
+							if( !empty( $st_string ) ) {
+								$st_string .= "|";
+							}
+							if ( $prop_val[0] == "#" ) {
+								$prop_val = "0x" . substr( $prop_val, 1 );
+							}
+							if ( is_bool( $prop_val ) ) {
+								$prop_val = $prop_val ? 'true' : 'false';
+							}
+							$st_string .= $prop_name . ":" . $prop_val;
+						}
+					}
+					$st_string = '&style=' . $st_string;
+					$src_url .= $st_string;
+				}
+			}
+		}
+
+		if ( ! empty( $instance['custom_map_name'] ) ) {
+			$map_name = $instance['custom_map_name'];
+		}
+
+		if ( $instance['static'] ) {
+			return array(
+				'src_url' => esc_url( $src_url )
+			);
+		} else {
+			return array(
+				'map_id'   => md5( $instance['place'] ),
+				'height'   => $height,
+				'map_data' => array(
+					'address'          => $instance['place'],
+					'zoom'             => $instance['zoom'],
+					'scroll-zoom'      => $instance['scroll_zoom'],
+					'marker-icon'      => ! empty( $mrkr_src ) ? $mrkr_src[0] : '',
+					'marker-draggable' => $instance['marker_draggable'],
+					'map-name'         => $map_name,
+					'map-styles'       => $styles_string,
+					'api-key'          => $instance['api_key']
+				)
+			);
+		}
 	}
 }
 
