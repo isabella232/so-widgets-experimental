@@ -1,18 +1,20 @@
 (function($){
 
-    $.fn.initAdminScript = function() {
-        $("<style>.siteorigin-widget-field-custom_map_styles.hide { display: none; }</style>").appendTo("head");
+    // After the form is setup, add some custom stuff.
+    $(document).on( 'sowsetupform', '.siteorigin-widget-form[data-class="SiteOrigin_Widget_JsGoogleMap_Widget"]', function(){
+
         var $mapStylesRepeater = $(this).find(".siteorigin-widget-field-custom_map_styles");
         var $presetsDropdown = $(this).find('select[id*="preset_map_styles"]');
         var showHideCustomStyles = function() {
             if($presetsDropdown.val() == "none") {
-                $mapStylesRepeater.removeClass("hide");
+                $mapStylesRepeater.show();
             } else {
-                $mapStylesRepeater.addClass("hide");
+                $mapStylesRepeater.hide();
             }
         };
         $presetsDropdown.change(showHideCustomStyles);
         showHideCustomStyles();
-    };
+
+    } );
 
 })(jQuery);

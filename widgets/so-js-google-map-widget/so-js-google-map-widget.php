@@ -97,7 +97,7 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 								'poi_government'              => __( 'Point of interest - Government', 'siteorigin-widgets' ),
 								'poi_medical'                 => __( 'Point of interest - Medical', 'siteorigin-widgets' ),
 								'poi_park'                    => __( 'Point of interest - Parks', 'siteorigin-widgets' ),
-								'poi_place-of-worship'        => __( 'Point of interest - Places of worshipr', 'siteorigin-widgets' ),
+								'poi_place-of-worship'        => __( 'Point of interest - Places of worship', 'siteorigin-widgets' ),
 								'poi_school'                  => __( 'Point of interest - Schools', 'siteorigin-widgets' ),
 								'poi_sports-complex'          => __( 'Point of interest - Sports complexes', 'siteorigin-widgets' ),
 							)
