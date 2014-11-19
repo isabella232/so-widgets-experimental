@@ -21,7 +21,7 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 			array(),
 			array(
 				'place'             => array(
-					'type'        => 'text',
+					'type'        => 'textarea',
 					'label'       => __( 'Place', 'siteorigin-widgets' ),
 					'description' => __( 'The name of a place, town, city, or even a country. Can be an exact address too.', 'siteorigin-widgets' )
 				),
@@ -30,9 +30,13 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 					'label' => __( 'Height', 'siteorigin-widgets' )
 				),
 				'zoom'              => array(
-					'type'        => 'text',
+					'type'        => 'slider',
 					'label'       => __( 'Zoom Level', 'siteorigin-widgets' ),
-					'description' => __( 'A value from 0 (the world) to 21 (street level).', 'siteorigin-widgets' )
+					'description' => __( 'A value from 0 (the world) to 21 (street level).', 'siteorigin-widgets' ),
+					'min'         => 0,
+					'max'         => 21,
+					'integer'     => true,
+
 				),
 				'static'            => array(
 					'type'    => 'checkbox',
