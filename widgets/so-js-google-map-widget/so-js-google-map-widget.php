@@ -20,10 +20,25 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 			),
 			array(),
 			array(
-				'place'             => array(
+				'map_type'          => array(
+					'type'    => 'radio',
+					'default' => 'static',
+					'label'   => __( 'Google map type', 'siteorigin-widgets' ),
+					'options' => array(
+						'interactive' => __( 'Interactive', 'siteorigin-widgets' ),
+						'static'      => __( 'Static Image', 'siteorigin-widgets' ),
+					)
+				),
+				'map_center'             => array(
 					'type'        => 'textarea',
-					'label'       => __( 'Place', 'siteorigin-widgets' ),
+					'rows'        => 2,
+					'label'       => __( 'Map center', 'siteorigin-widgets' ),
 					'description' => __( 'The name of a place, town, city, or even a country. Can be an exact address too.', 'siteorigin-widgets' )
+				),
+				'width'             => array(
+					'type'   => 'text',
+					'hidden' => true,
+					'label'  => __( 'Width', 'siteorigin-widgets' )
 				),
 				'height'            => array(
 					'type'  => 'text',
@@ -37,11 +52,6 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 					'max'         => 21,
 					'integer'     => true,
 
-				),
-				'static'            => array(
-					'type'    => 'checkbox',
-					'default' => false,
-					'label'   => __( 'Static Image', 'siteorigin-widgets' )
 				),
 				'scroll_zoom'       => array(
 					'type'        => 'checkbox',
@@ -60,18 +70,36 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 					'default' => true,
 					'label'   => __( 'Draggable marker', 'siteorigin-widgets' )
 				),
+				'map_styles'        => array(
+					'type'    => 'radio',
+					'default' => 'normal',
+					'label'   => __( 'Map styles', 'siteorigin-widgets' ),
+					'options' => array(
+						'normal'   => __( 'Normal', 'siteorigin-widgets' ),
+						'preset'   => __( 'Preset', 'siteorigin-widgets' ),
+						'custom'   => __( 'Custom', 'siteorigin-widgets' ),
+						'raw_json' => __( 'Raw JSON', 'siteorigin-widgets' ),
+					)
+				),
+				'styled_map_name'   => array(
+					'type'  => 'text',
+					'label' => __( 'Styled map name', 'siteorigin-widgets' )
+				),
 				'preset_map_styles' => array(
 					'type'    => 'select',
 					'label'   => __( 'Preset map styles', 'siteorigin-widgets' ),
 					'options' => array(
-						'none'       => __( 'None', 'siteorigin-widgets' ),
 						'apocalypse' => __( 'Apocalypse', 'siteorigin-widgets' ),
+						'cartoon'    => __( 'Cartoon', 'siteorigin-widgets' ),
 						'grayscale'  => __( 'Grayscale', 'siteorigin-widgets' ),
 					)
 				),
-				'custom_map_name'   => array(
-					'type'  => 'text',
-					'label' => __( 'Custom map name', 'siteorigin-widgets' )
+				'raw_json_styles'   => array(
+					'type'        => 'textarea',
+					'rows'        => 20,
+					'hidden'      => true,
+					'label'       => __( 'Raw JSON Styles', 'siteorigin-widgets' ),
+					'description' => __( 'Copy and paste predefined styles here from Snazzy Maps.', 'siteorigin-widgets' )
 				),
 				'custom_map_styles' => array(
 					'type'       => 'repeater',
@@ -144,114 +172,149 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 	}
 
 	function get_template_name( $instance ) {
-		return $instance['static'] ? 'static-map' : 'js-map';
+		return $instance['map_type'] == 'static' ? 'static-map' : 'js-map';
 	}
 
 	function get_style_name( $instance ) {
-		return $instance['static'] ? '' : 'js-map';
+		return $instance['map_type'] == 'static' ? '' : 'js-map';
 	}
 
 	function get_template_variables( $instance, $args ) {
-		$mrkr_src      = wp_get_attachment_image_src( $instance['marker_icon'] );
-		$height = ! empty( $instance['height'] ) ? esc_attr( $instance['height'] ) : 450;
-		$src_url = '';
-		$styles_string = '';
-		$map_name      = '';
-		if ( ! empty( $instance['preset_map_styles'] ) && $instance['preset_map_styles'] != 'none' ) {
-			$preset_name   = $instance['preset_map_styles'];
-			$map_name      = ucwords( $preset_name );
-			$styles_string = file_get_contents( siteorigin_widget_get_plugin_dir_path( 'js-google-map' ) . 'map-styles/' . $preset_name . '.json' );
-		} else if ( ! empty( $instance['custom_map_styles'] ) ) {
-			$map_name   = 'Custom Map';
-			$map_styles = $instance['custom_map_styles'];
-			$styles     = array();
-			foreach ( $map_styles as $style_item ) {
-				$map_feature = $style_item['map_feature'];
-				unset( $style_item['map_feature'] );
-				$element_type = $style_item['element_type'];
-				unset( $style_item['element_type'] );
+		$mrkr_src = wp_get_attachment_image_src( $instance['marker_icon'] );
+		$width    = ! empty( $instance['width'] ) ? esc_attr( $instance['width'] ) : 640;
+		$height   = ! empty( $instance['height'] ) ? esc_attr( $instance['height'] ) : 480;
 
-				$stylers = array();
-				foreach ( $style_item as $style_name => $style_value ) {
-					if ( $style_value !== '' && ! is_null( $style_value ) ) {
-						$style_value = $style_value === false ? 'off' : $style_value;
-						array_push( $stylers, array( $style_name => $style_value ) );
-					}
-				}
-				$map_feature = str_replace( '_', '.', $map_feature );
-				$map_feature = str_replace( '-', '_', $map_feature );
-				array_push( $styles, array(
-					'featureType' => $map_feature,
-					'elementType' => $element_type,
-					'stylers'     => $stylers
-				) );
-			}
+		$styles = $this->get_styles( $instance );
 
-			$styles_string = json_encode( $styles );
-		}
+		if ( $instance['map_type'] == 'static' ) {
+			$src_url = $this->get_static_image_src( $instance, $width, $height, ! empty( $styles ) ? $styles['styles'] : array() );
 
-		if ( $instance['static'] ) {
-			$src_url = "https://maps.googleapis.com/maps/api/staticmap?";
-			$src_url .= "center=" . $instance['place'];
-			$src_url .= "&zoom=" . $instance['zoom'];
-			$src_url .= "&size=" . $height . "x" . $height;
-			if ( ! empty( $styles_string ) ) {
-				$styles = json_decode( $styles_string , true);
-				foreach ( $styles as $st ) {
-					$st_string = '';
-					if ( isset ( $st['featureType'] ) ) {
-						$st_string .= 'feature:' . $st['featureType'];
-					}
-					if ( isset ( $st['elementType'] ) ) {
-						if( !empty( $st_string ) ) {
-							$st_string .= "|";
-						}
-						$st_string .= 'element:' . $st['elementType'];
-					}
-					foreach ( $st['stylers'] as $style_prop_arr ) {
-						foreach ($style_prop_arr as $prop_name => $prop_val ) {
-							if( !empty( $st_string ) ) {
-								$st_string .= "|";
-							}
-							if ( $prop_val[0] == "#" ) {
-								$prop_val = "0x" . substr( $prop_val, 1 );
-							}
-							if ( is_bool( $prop_val ) ) {
-								$prop_val = $prop_val ? 'true' : 'false';
-							}
-							$st_string .= $prop_name . ":" . $prop_val;
-						}
-					}
-					$st_string = '&style=' . $st_string;
-					$src_url .= $st_string;
-				}
-			}
-		}
-
-		if ( ! empty( $instance['custom_map_name'] ) ) {
-			$map_name = $instance['custom_map_name'];
-		}
-
-		if ( $instance['static'] ) {
 			return array(
 				'src_url' => esc_url( $src_url )
 			);
 		} else {
+
 			return array(
-				'map_id'   => md5( $instance['place'] ),
+				'map_id'   => md5( $instance['map_center'] ),
 				'height'   => $height,
 				'map_data' => array(
-					'address'          => $instance['place'],
+					'address'          => $instance['map_center'],
 					'zoom'             => $instance['zoom'],
 					'scroll-zoom'      => $instance['scroll_zoom'],
 					'marker-icon'      => ! empty( $mrkr_src ) ? $mrkr_src[0] : '',
 					'marker-draggable' => $instance['marker_draggable'],
-					'map-name'         => $map_name,
-					'map-styles'       => $styles_string,
+					'map-name'         => ! empty( $styles ) ? $styles['map_name'] : '',
+					'map-styles'       => ! empty( $styles ) ? json_encode( $styles['styles'] ) : '',
 					'api-key'          => $instance['api_key']
 				)
 			);
 		}
+	}
+
+	private function get_styles( $instance ) {
+		switch ( $instance['map_styles'] ) {
+			case 'preset':
+				$preset_name   = $instance['preset_map_styles'];
+				$map_name      = ! empty( $instance['styled_map_name'] ) ? $instance['styled_map_name'] : ucwords( $preset_name );
+				$styles_string = file_get_contents( siteorigin_widget_get_plugin_dir_path( 'js-google-map' ) . 'map-styles/' . $preset_name . '.json' );
+
+				return array( 'map_name' => $map_name, 'styles' => json_decode( $styles_string, true ) );
+			case 'custom':
+				if ( empty( $instance['custom_map_styles'] ) ) {
+					return array();
+				} else {
+					$map_name   = ! empty( $instance['styled_map_name'] ) ? $instance['styled_map_name'] : 'Custom Map';
+					$map_styles = $instance['custom_map_styles'];
+					$styles     = array();
+					foreach ( $map_styles as $style_item ) {
+						$map_feature = $style_item['map_feature'];
+						unset( $style_item['map_feature'] );
+						$element_type = $style_item['element_type'];
+						unset( $style_item['element_type'] );
+
+						$stylers = array();
+						foreach ( $style_item as $style_name => $style_value ) {
+							if ( $style_value !== '' && ! is_null( $style_value ) ) {
+								$style_value = $style_value === false ? 'off' : $style_value;
+								array_push( $stylers, array( $style_name => $style_value ) );
+							}
+						}
+						$map_feature = str_replace( '_', '.', $map_feature );
+						$map_feature = str_replace( '-', '_', $map_feature );
+						array_push( $styles, array(
+							'featureType' => $map_feature,
+							'elementType' => $element_type,
+							'stylers'     => $stylers
+						) );
+					}
+
+					return array( 'map_name' => $map_name, 'styles' => $styles );
+				}
+			case 'raw_json':
+				if ( empty( $instance['raw_json_styles'] ) ) {
+					return array();
+				} else {
+					$map_name      = ! empty( $instance['styled_map_name'] ) ? $instance['styled_map_name'] : 'Custom Map';
+					$styles_string = $instance['raw_json_styles'];
+
+					return array( 'map_name' => $map_name, 'styles' => json_decode( $styles_string, true ) );
+				}
+			case 'normal':
+			default:
+				return array();
+		}
+	}
+
+	private function get_static_image_src( $instance, $width, $height, $styles ) {
+		$src_url = "https://maps.googleapis.com/maps/api/staticmap?";
+		$src_url .= "center=" . $instance['map_center'];
+		$src_url .= "&zoom=" . $instance['zoom'];
+		$src_url .= "&size=" . $width . "x" . $height;
+
+		if ( ! empty( $instance['api_key'] ) ) {
+			$src_url .= "&key=" . $instance['api_key'];
+		}
+
+		if ( ! empty( $styles ) ) {
+			foreach ( $styles as $st ) {
+				if ( empty( $st ) || ! isset( $st['stylers'] ) || empty( $st['stylers'] ) ) {
+					continue;
+				}
+				$st_string = '';
+				if ( isset ( $st['featureType'] ) ) {
+					$st_string .= 'feature:' . $st['featureType'];
+				} else {
+					$st_string .= 'feature:all';
+				}
+
+				if ( isset ( $st['elementType'] ) ) {
+					if ( ! empty( $st_string ) ) {
+						$st_string .= "|";
+					}
+					$st_string .= 'element:' . $st['elementType'];
+				} else {
+					$st_string .= 'element:all';
+				}
+				foreach ( $st['stylers'] as $style_prop_arr ) {
+					foreach ( $style_prop_arr as $prop_name => $prop_val ) {
+						if ( ! empty( $st_string ) ) {
+							$st_string .= "|";
+						}
+						if ( $prop_val[0] == "#" ) {
+							$prop_val = "0x" . substr( $prop_val, 1 );
+						}
+						if ( is_bool( $prop_val ) ) {
+							$prop_val = $prop_val ? 'true' : 'false';
+						}
+						$st_string .= $prop_name . ":" . $prop_val;
+					}
+				}
+				$st_string = '&style=' . urlencode( $st_string );
+				$src_url .= $st_string;
+			}
+		}
+
+		return $src_url;
 	}
 }
 
