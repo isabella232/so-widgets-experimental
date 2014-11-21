@@ -12,45 +12,49 @@
                 if ($selectedType.val() == 'static') {
                     $mapWidgetForm.find('.siteorigin-widget-field-width').show();
                     $mapWidgetForm.find('.siteorigin-widget-field-scroll_zoom').hide();
-                    //hide marker?
-                    $mapWidgetForm.find('.siteorigin-widget-field-marker').hide();
                     $mapWidgetForm.find('.siteorigin-widget-field-marker_draggable').hide();
-                    $mapWidgetForm.find('.siteorigin-widget-field-styled_map_name').hide();
+                    $mapWidgetForm.find('.siteorigin-widget-field-stylesstyled_map_name').hide();
                 } else {
                     $mapWidgetForm.find('.siteorigin-widget-field-width').hide();
                     $mapWidgetForm.find('.siteorigin-widget-field-scroll_zoom').show();
-                    //hide marker?
-                    $mapWidgetForm.find('.siteorigin-widget-field-marker').show();
                     $mapWidgetForm.find('.siteorigin-widget-field-marker_draggable').show();
-                    $mapWidgetForm.find('.siteorigin-widget-field-styled_map_name').show();
+                    $mapWidgetForm.find('.siteorigin-widget-field-stylesstyled_map_name').show();
                 }
             };
             $mapTypeField.change(updateFieldsForSelectedMapType);
             updateFieldsForSelectedMapType();
 
-            var $styleMethodField = $mapWidgetForm.find('.siteorigin-widget-field-map_styles');
+            var $styleMethodField = $mapWidgetForm.find('.siteorigin-widget-field-stylesmap_styles');
+            var $fieldPresets = $mapWidgetForm.find('.siteorigin-widget-field-stylespreset_map_styles');
+            var $fieldCustom = $mapWidgetForm.find('.siteorigin-widget-field-stylescustom_map_styles');
+            var $fieldRawJson = $mapWidgetForm.find('.siteorigin-widget-field-stylesraw_json_styles');
+            var $fieldMapName = $mapWidgetForm.find('.siteorigin-widget-field-stylesstyled_map_name');
             var updateFieldsForSelectedStyleMethod = function () {
                 var $selectedMethod = $styleMethodField.find('input[type="radio"][name*="map_styles"]:checked');
                 switch ( $selectedMethod.val() ) {
                     case 'normal' :
-                        $mapWidgetForm.find('.siteorigin-widget-field-preset_map_styles').hide();
-                        $mapWidgetForm.find('.siteorigin-widget-field-custom_map_styles').hide();
-                        $mapWidgetForm.find('.siteorigin-widget-field-raw_json_styles').hide();
+                        $fieldPresets.hide();
+                        $fieldCustom.hide();
+                        $fieldRawJson.hide();
+                        $fieldMapName.hide();
                         break;
                     case 'preset' :
-                        $mapWidgetForm.find('.siteorigin-widget-field-preset_map_styles').show();
-                        $mapWidgetForm.find('.siteorigin-widget-field-custom_map_styles').hide();
-                        $mapWidgetForm.find('.siteorigin-widget-field-raw_json_styles').hide();
+                        $fieldPresets.show();
+                        $fieldCustom.hide();
+                        $fieldRawJson.hide();
+                        $fieldMapName.show();
                         break;
                     case 'custom' :
-                        $mapWidgetForm.find('.siteorigin-widget-field-preset_map_styles').hide();
-                        $mapWidgetForm.find('.siteorigin-widget-field-custom_map_styles').show();
-                        $mapWidgetForm.find('.siteorigin-widget-field-raw_json_styles').hide();
+                        $fieldPresets.hide();
+                        $fieldCustom.show();
+                        $fieldRawJson.hide();
+                        $fieldMapName.show();
                         break;
                     case 'raw_json' :
-                        $mapWidgetForm.find('.siteorigin-widget-field-preset_map_styles').hide();
-                        $mapWidgetForm.find('.siteorigin-widget-field-custom_map_styles').hide();
-                        $mapWidgetForm.find('.siteorigin-widget-field-raw_json_styles').show();
+                        $fieldPresets.hide();
+                        $fieldCustom.hide();
+                        $fieldRawJson.show();
+                        $fieldMapName.show();
                         break;
                 }
             };

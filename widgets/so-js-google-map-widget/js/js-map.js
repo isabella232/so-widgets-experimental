@@ -16,7 +16,7 @@ function loadMap($) {
 
                 var mapOptions = {
                     zoom: zoom,
-                    scrollwheel: Boolean($$.data('scroll-zoom')),
+                    scrollwheel: $$.data('scroll-zoom') == 'on',
                     center: results[0].geometry.location,
                     mapTypeControlOptions: {
                         mapTypeIds: [google.maps.MapTypeId.ROADMAP, userMapTypeId]
@@ -38,13 +38,34 @@ function loadMap($) {
                     map.setMapTypeId(userMapTypeId);
                 }
 
-                var marker = new google.maps.Marker({
-                    position: results[0].geometry.location,
-                    map: map,
-                    draggable: Boolean($$.data('marker-draggable')),
-                    icon: $$.data('marker-icon'),
-                    title: ''
-                });
+                if ( $$.data('marker-at-center' ) == 'on') {
+
+                    new google.maps.Marker({
+                        position: results[0].geometry.location,
+                        map: map,
+                        draggable: $$.data('marker-draggable') == 'on',
+                        icon: $$.data('marker-icon'),
+                        title: ''
+                    });
+                }
+                var markerPositions = $$.data('marker-positions');
+                if ( markerPositions && markerPositions.length ) {
+                    markerPositions.forEach(
+                        function(element) {
+                            geocoder.geocode( { 'address': element.place }, function (res, status) {
+                                if ( status == google.maps.GeocoderStatus.OK ) {
+                                    new google.maps.Marker({
+                                        position: res[0].geometry.location,
+                                        map: map,
+                                        draggable: $$.data('marker-draggable') == 'on',
+                                        icon: $$.data('marker-icon'),
+                                        title: ''
+                                    });
+                                }
+                            });
+                        }
+                    );
+                }
             }
             else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
                 $$.append('<div><p><strong>There were no results for the place you entered. Please try another.</strong></p></div>');
