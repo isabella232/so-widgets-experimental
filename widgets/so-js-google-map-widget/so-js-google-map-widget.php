@@ -99,7 +99,7 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 					'rows'        => 20,
 					'hidden'      => true,
 					'label'       => __( 'Raw JSON Styles', 'siteorigin-widgets' ),
-					'description' => __( 'Copy and paste predefined styles here from Snazzy Maps.', 'siteorigin-widgets' )
+					'description' => __( 'Copy and paste predefined styles here from <a href="http://snazzymaps.com/" target="_blank">Snazzy Maps</a>.', 'siteorigin-widgets' )
 				),
 				'custom_map_styles' => array(
 					'type'       => 'repeater',
