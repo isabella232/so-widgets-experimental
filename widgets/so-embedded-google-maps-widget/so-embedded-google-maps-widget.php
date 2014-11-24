@@ -20,8 +20,6 @@ class SiteOrigin_Widget_EmbeddedGoogleMaps_Widget extends SiteOrigin_Widget {
 			),
 			array(),
 			array(
-//				TODO: add link to API Key instructions. remind users to set allowed referers to their domain.
-//              be very specific about using their exact domains if they're using something like *.wordpress.com
 				'api_key'    => array(
 					'type'  => 'text',
 					'label' => __( 'API Key', 'siteorigin-widgets' )

@@ -16,7 +16,7 @@ function loadMap($) {
 
                 var mapOptions = {
                     zoom: zoom,
-                    scrollwheel: $$.data('scroll-zoom') == 'on',
+                    scrollwheel: Boolean( $$.data('scroll-zoom') ),
                     center: results[0].geometry.location,
                     mapTypeControlOptions: {
                         mapTypeIds: [google.maps.MapTypeId.ROADMAP, userMapTypeId]
@@ -38,12 +38,12 @@ function loadMap($) {
                     map.setMapTypeId(userMapTypeId);
                 }
 
-                if ( $$.data('marker-at-center' ) == 'on') {
+                if ( Boolean( $$.data('marker-at-center' ) ) ) {
 
                     new google.maps.Marker({
                         position: results[0].geometry.location,
                         map: map,
-                        draggable: $$.data('marker-draggable') == 'on',
+                        draggable: Boolean( $$.data('marker-draggable') ),
                         icon: $$.data('marker-icon'),
                         title: ''
                     });
@@ -51,13 +51,13 @@ function loadMap($) {
                 var markerPositions = $$.data('marker-positions');
                 if ( markerPositions && markerPositions.length ) {
                     markerPositions.forEach(
-                        function(element) {
-                            geocoder.geocode( { 'address': element.place }, function (res, status) {
+                        function(mrkr) {
+                            geocoder.geocode( { 'address': mrkr.place }, function (res, status) {
                                 if ( status == google.maps.GeocoderStatus.OK ) {
                                     new google.maps.Marker({
                                         position: res[0].geometry.location,
                                         map: map,
-                                        draggable: $$.data('marker-draggable') == 'on',
+                                        draggable: Boolean( $$.data('marker-draggable') ),
                                         icon: $$.data('marker-icon'),
                                         title: ''
                                     });
@@ -65,6 +65,42 @@ function loadMap($) {
                             });
                         }
                     );
+                }
+
+                var directions = $$.data('directions');
+                if ( directions ) {
+
+                    if ( directions.waypoints && directions.waypoints.length ) {
+                        directions.waypoints.map(
+                            function (wypt) {
+                                wypt.stopover = Boolean(wypt.stopover);
+                            }
+                        );
+                    }
+
+                    var directionsRenderer = new google.maps.DirectionsRenderer();
+                    directionsRenderer.setMap(map);
+
+                    var directionsService = new google.maps.DirectionsService();
+                    directionsService.route({
+                        origin: directions.origin,
+                        destination: directions.destination,
+                        travelMode: directions.travelMode.toUpperCase(),
+                        unitSystem: directions.unitSystem == 'metric' ? 0 : 1,
+                        avoidHighways: Boolean( directions.avoidHighways ),
+                        avoidTolls: Boolean( directions.avoidTolls ),
+                        waypoints: directions.waypoints
+                        //transitOptions: TransitOptions,
+                        //durationInTraffic: Boolean,
+                        //optimizeWaypoints: Boolean,
+                        //provideRouteAlternatives: Boolean,
+                        //region: String
+                    },
+                    function(result, status) {
+                        if (status == google.maps.DirectionsStatus.OK) {
+                            directionsRenderer.setDirections(result);
+                        }
+                    });
                 }
             }
             else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
