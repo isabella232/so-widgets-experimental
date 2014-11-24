@@ -37,11 +37,13 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 				),
 				'width'       => array(
 					'type'   => 'text',
+					'default' => 640,
 					'hidden' => true,
 					'label'  => __( 'Width', 'siteorigin-widgets' )
 				),
 				'height'      => array(
 					'type'  => 'text',
+					'default' => 480,
 					'label' => __( 'Height', 'siteorigin-widgets' )
 				),
 				'zoom'        => array(
@@ -232,25 +234,25 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 //							)
 //						),
 						'waypoints'      => array(
-							'type'  => 'repeater',
-							'label' => __( 'Waypoints', 'siteorigin-widgets' ),
+							'type'       => 'repeater',
+							'label'      => __( 'Waypoints', 'siteorigin-widgets' ),
 							'item_name'  => __( 'Waypoint', 'siteorigin-widgets' ),
 							'item_label' => array(
 								'selector'     => "[id*='waypoints-location']",
 								'update_event' => 'change',
 								'value_method' => 'val'
 							),
-							'fields' => array(
+							'fields'     => array(
 								'location' => array(
-									'type' => 'textarea',
-									'rows' => 2,
-									'label' => __('Location', 'siteorigin-widgets')
+									'type'  => 'textarea',
+									'rows'  => 2,
+									'label' => __( 'Location', 'siteorigin-widgets' )
 								),
 								'stopover' => array(
-									'type' => 'checkbox',
-									'default' => false,
-									'label' => __('Stopover', 'siteorigin-widgets'),
-									'description' => __('Whether or not this is a stop on the route or just a route preference.')
+									'type'        => 'checkbox',
+									'default'     => false,
+									'label'       => __( 'Stopover', 'siteorigin-widgets' ),
+									'description' => __( 'Whether or not this is a stop on the route or just a route preference.' )
 								)
 							)
 						)
@@ -270,7 +272,7 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 	}
 
 	function enqueue_frontend_scripts() {
-		wp_enqueue_script( 'sow-js-google-map', siteorigin_widget_get_plugin_dir_url( 'js-google-map' ) . 'js/js-map.js', array( 'jquery' ), SOW_BUNDLE_VERSION . "asdas");
+		wp_enqueue_script( 'sow-js-google-map', siteorigin_widget_get_plugin_dir_url( 'js-google-map' ) . 'js/js-map.js', array( 'jquery' ), SOW_BUNDLE_VERSION . "asdas" );
 	}
 
 	function get_template_name( $instance ) {
@@ -283,13 +285,11 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 
 	function get_template_variables( $instance, $args ) {
 		$mrkr_src = wp_get_attachment_image_src( $instance['markers']['marker_icon'] );
-		$width    = ! empty( $instance['width'] ) ? esc_attr( $instance['width'] ) : 640;
-		$height   = ! empty( $instance['height'] ) ? esc_attr( $instance['height'] ) : 480;
 
 		$styles = $this->get_styles( $instance );
 
 		if ( $instance['map_type'] == 'static' ) {
-			$src_url = $this->get_static_image_src( $instance, $width, $height, ! empty( $styles ) ? $styles['styles'] : array() );
+			$src_url = $this->get_static_image_src( $instance, $instance['width'], $instance['height'], ! empty( $styles ) ? $styles['styles'] : array() );
 
 			return array(
 				'src_url' => esc_url( $src_url )
@@ -299,7 +299,7 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 
 			return array(
 				'map_id'   => md5( $instance['map_center'] ),
-				'height'   => $height,
+				'height'   => $instance['height'],
 				'map_data' => array(
 					'address'          => $instance['map_center'],
 					'zoom'             => $instance['zoom'],
