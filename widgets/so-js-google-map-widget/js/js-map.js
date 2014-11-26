@@ -86,13 +86,13 @@ function loadMap($) {
                         origin: directions.origin,
                         destination: directions.destination,
                         travelMode: directions.travelMode.toUpperCase(),
-                        unitSystem: directions.unitSystem == 'metric' ? 0 : 1,
                         avoidHighways: Boolean( directions.avoidHighways ),
                         avoidTolls: Boolean( directions.avoidTolls ),
-                        waypoints: directions.waypoints
+                        waypoints: directions.waypoints,
+                        optimizeWaypoints: Boolean( directions.optimizeWaypoints )
+                        //unitSystem: directions.unitSystem == 'metric' ? 0 : 1,
                         //transitOptions: TransitOptions,
                         //durationInTraffic: Boolean,
-                        //optimizeWaypoints: Boolean,
                         //provideRouteAlternatives: Boolean,
                         //region: String
                     },

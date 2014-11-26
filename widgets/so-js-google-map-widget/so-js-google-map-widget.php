@@ -36,15 +36,16 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 					'description' => __( 'The name of a place, town, city, or even a country. Can be an exact address too.', 'siteorigin-widgets' )
 				),
 				'width'       => array(
-					'type'   => 'text',
+					'type'    => 'text',
 					'default' => 640,
-					'hidden' => true,
-					'label'  => __( 'Width', 'siteorigin-widgets' )
+					'hidden'  => true,
+					'state_name' => 'static',
+					'label'   => __( 'Width', 'siteorigin-widgets' )
 				),
 				'height'      => array(
-					'type'  => 'text',
+					'type'    => 'text',
 					'default' => 480,
-					'label' => __( 'Height', 'siteorigin-widgets' )
+					'label'   => __( 'Height', 'siteorigin-widgets' )
 				),
 				'zoom'        => array(
 					'type'        => 'slider',
@@ -52,12 +53,14 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 					'description' => __( 'A value from 0 (the world) to 21 (street level).', 'siteorigin-widgets' ),
 					'min'         => 0,
 					'max'         => 21,
+					'default'     => 12,
 					'integer'     => true,
 
 				),
 				'scroll_zoom' => array(
 					'type'        => 'checkbox',
 					'default'     => true,
+					'state_name' => 'interactive',
 					'label'       => __( 'Scroll to zoom', 'siteorigin-widgets' ),
 					'description' => __( 'Allow scrolling over the map to zoom in or out.', 'siteorigin-widgets' )
 				),
@@ -65,6 +68,7 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 					'type'   => 'section',
 					'label'  => __( 'Markers', 'siteorigin-widgets' ),
 					'hide'   => true,
+					'description' => __( 'Use markers to identify points of interest on the map.', 'siteorigin-widgets' ),
 					'fields' => array(
 						'marker_at_center' => array(
 							'type'    => 'checkbox',
@@ -80,6 +84,7 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 						'marker_draggable' => array(
 							'type'    => 'checkbox',
 							'default' => false,
+							'state_name' => 'interactive',
 							'label'   => __( 'Draggable markers', 'siteorigin-widgets' )
 						),
 						'marker_positions' => array(
@@ -105,6 +110,7 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 					'type'   => 'section',
 					'label'  => __( 'Styles', 'siteorigin-widgets' ),
 					'hide'   => true,
+					'description' => __( 'Apply custom colors to map features, or hide them completely.', 'siteorigin-widgets' ),
 					'fields' => array(
 						'map_styles'        => array(
 							'type'    => 'radio',
@@ -119,6 +125,7 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 						),
 						'styled_map_name'   => array(
 							'type'  => 'text',
+							'state_name' => 'interactive',
 							'label' => __( 'Styled map name', 'siteorigin-widgets' )
 						),
 						'preset_map_styles' => array(
@@ -132,7 +139,7 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 						),
 						'raw_json_styles'   => array(
 							'type'        => 'textarea',
-							'rows'        => 20,
+							'rows'        => 5,
 							'hidden'      => true,
 							'label'       => __( 'Raw JSON Styles', 'siteorigin-widgets' ),
 							'description' => __( 'Copy and paste predefined styles here from <a href="http://snazzymaps.com/" target="_blank">Snazzy Maps</a>.', 'siteorigin-widgets' )
@@ -195,11 +202,14 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 				'directions'  => array(
 					'type'   => 'section',
 					'label'  => __( 'Directions', 'siteorigin-widgets' ),
+					'state_name' => 'interactive',
 					'hide'   => true,
+					'description' => __( 'Display a route on your map, with waypoints between your starting point and destination', 'siteorigin-widgets' ),
 					'fields' => array(
 						'origin'         => array(
-							'type'  => 'text',
-							'label' => __( 'Origin', 'siteorigin-widgets' )
+							'type'        => 'text',
+							'label'       => __( 'Starting point', 'siteorigin-widgets' ),
+							'description' => __( 'Choose a starting point.', 'siteorigin-widgets' )
 						),
 						'destination'    => array(
 							'type'  => 'text',
@@ -250,17 +260,23 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 								),
 								'stopover' => array(
 									'type'        => 'checkbox',
-									'default'     => false,
+									'default'     => true,
 									'label'       => __( 'Stopover', 'siteorigin-widgets' ),
 									'description' => __( 'Whether or not this is a stop on the route or just a route preference.' )
 								)
 							)
+						),
+						'optimize_waypoints' => array(
+							'type' => 'checkbox',
+							'label' => __('Optimize waypoints', 'siteorigin-widgets'),
+							'default' => false,
+							'description' => __('Allow the service to reorder waypoints for the shortest travelling distance.', 'siteorigin-widgets')
 						)
 					)
 				),
 				'api_key'     => array(
 					'type'        => 'text',
-					'label'       => __( 'API Key', 'siteorigin-widgets' ),
+					'label'       => __( 'API Key (optional)', 'siteorigin-widgets' ),
 					'description' => __( 'Enter your API key if you have one. This enables you to monitor your Maps API usage in the Google APIs Console.', 'siteorigin-widgets' )
 				),
 			)
@@ -272,7 +288,7 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 	}
 
 	function enqueue_frontend_scripts() {
-		wp_enqueue_script( 'sow-js-google-map', siteorigin_widget_get_plugin_dir_url( 'js-google-map' ) . 'js/js-map.js', array( 'jquery' ), SOW_BUNDLE_VERSION . "asdas" );
+		wp_enqueue_script( 'sow-js-google-map', siteorigin_widget_get_plugin_dir_url( 'js-google-map' ) . 'js/js-map.js', array( 'jquery' ), SOW_BUNDLE_VERSION . "as");
 	}
 
 	function get_template_name( $instance ) {

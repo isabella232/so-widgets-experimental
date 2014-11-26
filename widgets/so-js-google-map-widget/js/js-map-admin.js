@@ -10,15 +10,11 @@
             var updateFieldsForSelectedMapType = function () {
                 var $selectedType = $mapTypeField.find('input[type="radio"][name*="map_type"]:checked');
                 if ($selectedType.val() == 'static') {
-                    $mapWidgetForm.find('.siteorigin-widget-field-width').show();
-                    $mapWidgetForm.find('.siteorigin-widget-field-scroll_zoom').hide();
-                    $mapWidgetForm.find('.siteorigin-widget-field-marker_draggable').hide();
-                    $mapWidgetForm.find('.siteorigin-widget-field-stylesstyled_map_name').hide();
+                    $mapWidgetForm.find('.siteorigin-widget-field-state-static').show();
+                    $mapWidgetForm.find('.siteorigin-widget-field-state-interactive').hide();
                 } else {
-                    $mapWidgetForm.find('.siteorigin-widget-field-width').hide();
-                    $mapWidgetForm.find('.siteorigin-widget-field-scroll_zoom').show();
-                    $mapWidgetForm.find('.siteorigin-widget-field-marker_draggable').show();
-                    $mapWidgetForm.find('.siteorigin-widget-field-stylesstyled_map_name').show();
+                    $mapWidgetForm.find('.siteorigin-widget-field-state-interactive').show();
+                    $mapWidgetForm.find('.siteorigin-widget-field-state-static').hide();
                 }
             };
             $mapTypeField.change(updateFieldsForSelectedMapType);
@@ -31,28 +27,22 @@
             var $fieldMapName = $mapWidgetForm.find('.siteorigin-widget-field-stylesstyled_map_name');
             var updateFieldsForSelectedStyleMethod = function () {
                 var $selectedMethod = $styleMethodField.find('input[type="radio"][name*="map_styles"]:checked');
+                $fieldPresets.hide();
+                $fieldCustom.hide();
+                $fieldRawJson.hide();
+                $fieldMapName.hide();
                 switch ( $selectedMethod.val() ) {
                     case 'normal' :
-                        $fieldPresets.hide();
-                        $fieldCustom.hide();
-                        $fieldRawJson.hide();
-                        $fieldMapName.hide();
                         break;
                     case 'preset' :
                         $fieldPresets.show();
-                        $fieldCustom.hide();
-                        $fieldRawJson.hide();
                         $fieldMapName.show();
                         break;
                     case 'custom' :
-                        $fieldPresets.hide();
                         $fieldCustom.show();
-                        $fieldRawJson.hide();
                         $fieldMapName.show();
                         break;
                     case 'raw_json' :
-                        $fieldPresets.hide();
-                        $fieldCustom.hide();
                         $fieldRawJson.show();
                         $fieldMapName.show();
                         break;
