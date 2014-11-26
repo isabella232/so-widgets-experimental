@@ -20,56 +20,64 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 			),
 			array(),
 			array(
-				'map_type'    => array(
-					'type'    => 'radio',
-					'default' => 'interactive',
-					'label'   => __( 'Google map type', 'siteorigin-widgets' ),
-					'options' => array(
-						'interactive' => __( 'Interactive', 'siteorigin-widgets' ),
-						'static'      => __( 'Static Image', 'siteorigin-widgets' ),
-					)
-				),
 				'map_center'  => array(
 					'type'        => 'textarea',
 					'rows'        => 2,
 					'label'       => __( 'Map center', 'siteorigin-widgets' ),
 					'description' => __( 'The name of a place, town, city, or even a country. Can be an exact address too.', 'siteorigin-widgets' )
 				),
-				'width'       => array(
-					'type'       => 'text',
-					'default'    => 640,
-					'hidden'     => true,
-					'state_name' => 'static',
-					'label'      => __( 'Width', 'siteorigin-widgets' )
-				),
-				'height'      => array(
-					'type'    => 'text',
-					'default' => 480,
-					'label'   => __( 'Height', 'siteorigin-widgets' )
-				),
-				'zoom'        => array(
-					'type'        => 'slider',
-					'label'       => __( 'Zoom Level', 'siteorigin-widgets' ),
-					'description' => __( 'A value from 0 (the world) to 21 (street level).', 'siteorigin-widgets' ),
-					'min'         => 0,
-					'max'         => 21,
-					'default'     => 12,
-					'integer'     => true,
+				'settings' => array(
+					'type'        => 'section',
+					'label'       => __( 'Settings', 'siteorigin-widgets' ),
+					'hide'        => true,
+					'description' => __( 'Set map display options.', 'siteorigin-widgets' ),
+					'fields'      => array(
+						'map_type'    => array(
+							'type'    => 'radio',
+							'default' => 'interactive',
+							'label'   => __( 'Google map type', 'siteorigin-widgets' ),
+							'options' => array(
+								'interactive' => __( 'Interactive', 'siteorigin-widgets' ),
+								'static'      => __( 'Static Image', 'siteorigin-widgets' ),
+							)
+						),
+						'width'       => array(
+							'type'       => 'text',
+							'default'    => 640,
+							'hidden'     => true,
+							'state_name' => 'static',
+							'label'      => __( 'Width', 'siteorigin-widgets' )
+						),
+						'height'      => array(
+							'type'    => 'text',
+							'default' => 480,
+							'label'   => __( 'Height', 'siteorigin-widgets' )
+						),
+						'zoom'        => array(
+							'type'        => 'slider',
+							'label'       => __( 'Zoom Level', 'siteorigin-widgets' ),
+							'description' => __( 'A value from 0 (the world) to 21 (street level).', 'siteorigin-widgets' ),
+							'min'         => 0,
+							'max'         => 21,
+							'default'     => 12,
+							'integer'     => true,
 
-				),
-				'scroll_zoom' => array(
-					'type'        => 'checkbox',
-					'default'     => true,
-					'state_name'  => 'interactive',
-					'label'       => __( 'Scroll to zoom', 'siteorigin-widgets' ),
-					'description' => __( 'Allow scrolling over the map to zoom in or out.', 'siteorigin-widgets' )
-				),
-				'draggable'   => array(
-					'type'        => 'checkbox',
-					'default'     => true,
-					'state_name'  => 'interactive',
-					'label'       => __( 'Draggable', 'siteorigin-widgets' ),
-					'description' => __( 'Allow dragging the map to move it around.', 'siteorigin-widgets' )
+						),
+						'scroll_zoom' => array(
+							'type'        => 'checkbox',
+							'default'     => true,
+							'state_name'  => 'interactive',
+							'label'       => __( 'Scroll to zoom', 'siteorigin-widgets' ),
+							'description' => __( 'Allow scrolling over the map to zoom in or out.', 'siteorigin-widgets' )
+						),
+						'draggable'   => array(
+							'type'        => 'checkbox',
+							'default'     => true,
+							'state_name'  => 'interactive',
+							'label'       => __( 'Draggable', 'siteorigin-widgets' ),
+							'description' => __( 'Allow dragging the map to move it around.', 'siteorigin-widgets' )
+						)
+					)
 				),
 				'markers'     => array(
 					'type'        => 'section',
@@ -241,15 +249,6 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 							'type'  => 'checkbox',
 							'label' => __( 'Avoid Tolls', 'siteorigin-widgets' ),
 						),
-//						'unit_system'    => array(
-//							'type'    => 'select',
-//							'label'   => __( 'Units of Measurement', 'siteorigin-widgets' ),
-//							'default' => 'metric',
-//							'options' => array(
-//								'metric'   => __( 'Metric', 'siteorigin-widgets' ),
-//								'imperial' => __( 'Imperial', 'siteorigin-widgets' )
-//							)
-//						),
 						'waypoints'          => array(
 							'type'       => 'repeater',
 							'label'      => __( 'Waypoints', 'siteorigin-widgets' ),
@@ -281,11 +280,18 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 						)
 					)
 				),
-				'api_key'     => array(
-					'type'        => 'text',
-					'label'       => __( 'API Key (optional)', 'siteorigin-widgets' ),
-					'description' => __( 'Enter your API key if you have one. This enables you to monitor your Maps API usage in the Google APIs Console.', 'siteorigin-widgets' )
-				),
+				'api_key_section' => array(
+					'type'        => 'section',
+					'label'       => __( 'API key', 'siteorigin-widgets' ),
+					'hide'        => true,
+					'fields'      => array(
+						'api_key'     => array(
+							'type'        => 'text',
+							'label'       => __( 'API key', 'siteorigin-widgets' ),
+							'description' => __( 'Enter your API key if you have one. This enables you to monitor your Maps API usage in the Google APIs Console.', 'siteorigin-widgets' )
+						)
+					)
+				)
 			)
 		);
 	}
@@ -299,43 +305,52 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 	}
 
 	function get_template_name( $instance ) {
-		return $instance['map_type'] == 'static' ? 'static-map' : 'js-map';
+		return $instance['settings']['map_type'] == 'static' ? 'static-map' : 'js-map';
 	}
 
 	function get_style_name( $instance ) {
-		return $instance['map_type'] == 'static' ? '' : 'js-map';
+		return $instance['settings']['map_type'] == 'static' ? '' : 'js-map';
 	}
 
 	function get_template_variables( $instance, $args ) {
+		$settings = $instance['settings'];
+
 		$mrkr_src = wp_get_attachment_image_src( $instance['markers']['marker_icon'] );
 
 		$styles = $this->get_styles( $instance );
 
-		if ( $instance['map_type'] == 'static' ) {
-			$src_url = $this->get_static_image_src( $instance, $instance['width'], $instance['height'], ! empty( $styles ) ? $styles['styles'] : array() );
+		if ( $settings['map_type'] == 'static' ) {
+			$src_url = $this->get_static_image_src( $instance, $settings['width'], $settings['height'], ! empty( $styles ) ? $styles['styles'] : array() );
 
 			return array(
 				'src_url' => esc_url( $src_url )
 			);
 		} else {
 			$markers = $instance['markers'];
+			$directions_json = '';
+			if ( ! empty( $instance['directions']['origin'] ) && ! empty( $instance['directions']['destination'] ) ) {
+				if ( empty( $instance['directions']['waypoints'] )) {
+					unset( $instance['directions']['waypoints'] );
+				}
+				$directions_json = json_encode( $this->underscores_to_camel_case( $instance['directions'] ) );
+			}
 
 			return array(
 				'map_id'   => md5( $instance['map_center'] ),
-				'height'   => $instance['height'],
+				'height'   => $settings['height'],
 				'map_data' => array(
 					'address'           => $instance['map_center'],
-					'zoom'              => $instance['zoom'],
-					'scroll-zoom'       => $instance['scroll_zoom'],
-					'draggable'         => $instance['draggable'],
+					'zoom'              => $settings['zoom'],
+					'scroll-zoom'       => $settings['scroll_zoom'],
+					'draggable'         => $settings['draggable'],
 					'marker-icon'       => ! empty( $mrkr_src ) ? $mrkr_src[0] : '',
 					'markers-draggable' => $markers['markers_draggable'],
 					'marker-at-center'  => $markers['marker_at_center'],
 					'marker-positions'  => isset( $markers['marker_positions'] ) ? json_encode( $markers['marker_positions'] ) : '',
 					'map-name'          => ! empty( $styles ) ? $styles['map_name'] : '',
 					'map-styles'        => ! empty( $styles ) ? json_encode( $styles['styles'] ) : '',
-					'directions'        => json_encode( $this->underscores_to_camel_case( $instance['directions'] ) ),
-					'api-key'           => $instance['api_key']
+					'directions'        => $directions_json,
+					'api-key'           => $instance['api_key_section']['api_key']
 				)
 			);
 		}
@@ -398,12 +413,12 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 
 	private function get_static_image_src( $instance, $width, $height, $styles ) {
 		$src_url = "https://maps.googleapis.com/maps/api/staticmap?";
-		$src_url .= "center=" . $instance['map_center'];
-		$src_url .= "&zoom=" . $instance['zoom'];
+		$src_url .= "center=" . $instance['settings']['map_center'];
+		$src_url .= "&zoom=" . $instance['settings']['zoom'];
 		$src_url .= "&size=" . $width . "x" . $height;
 
-		if ( ! empty( $instance['api_key'] ) ) {
-			$src_url .= "&key=" . $instance['api_key'];
+		if ( ! empty( $instance['api_key_section']['api_key'] ) ) {
+			$src_url .= "&key=" . $instance['api_key_section']['api_key'];
 		}
 
 		if ( ! empty( $styles ) ) {
