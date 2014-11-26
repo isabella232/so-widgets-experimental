@@ -88,7 +88,7 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 						'marker_at_center'  => array(
 							'type'    => 'checkbox',
 							'default' => true,
-							'label'   => __( 'Marker at map center', 'siteorigin-widgets' )
+							'label'   => __( 'Show marker at map center', 'siteorigin-widgets' )
 						),
 						'marker_icon'       => array(
 							'type'        => 'media',
