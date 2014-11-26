@@ -29,7 +29,7 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 				'settings' => array(
 					'type'        => 'section',
 					'label'       => __( 'Settings', 'siteorigin-widgets' ),
-					'hide'        => true,
+					'hide'        => false,
 					'description' => __( 'Set map display options.', 'siteorigin-widgets' ),
 					'fields'      => array(
 						'map_type'    => array(
@@ -127,7 +127,7 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 					'hide'        => true,
 					'description' => __( 'Apply custom colors to map features, or hide them completely.', 'siteorigin-widgets' ),
 					'fields'      => array(
-						'map_styles'        => array(
+							'style_method'        => array(
 							'type'    => 'radio',
 							'default' => 'normal',
 							'label'   => __( 'Map styles', 'siteorigin-widgets' ),
@@ -152,7 +152,7 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 								'grayscale'  => __( 'Grayscale', 'siteorigin-widgets' ),
 							)
 						),
-						'raw_json_styles'   => array(
+						'raw_json_map_styles'   => array(
 							'type'        => 'textarea',
 							'rows'        => 5,
 							'hidden'      => true,
@@ -358,7 +358,7 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 
 	private function get_styles( $instance ) {
 		$style_config = $instance['styles'];
-		switch ( $style_config['map_styles'] ) {
+		switch ( $style_config['style_method'] ) {
 			case 'preset':
 				$preset_name   = $style_config['preset_map_styles'];
 				$map_name      = ! empty( $style_config['styled_map_name'] ) ? $style_config['styled_map_name'] : ucwords( $preset_name );
@@ -397,11 +397,11 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 					return array( 'map_name' => $map_name, 'styles' => $styles );
 				}
 			case 'raw_json':
-				if ( empty( $style_config['raw_json_styles'] ) ) {
+				if ( empty( $style_config['raw_json_map_styles'] ) ) {
 					return array();
 				} else {
 					$map_name      = ! empty( $style_config['styled_map_name'] ) ? $style_config['styled_map_name'] : 'Custom Map';
-					$styles_string = $style_config['raw_json_styles'];
+					$styles_string = $style_config['raw_json_map_styles'];
 
 					return array( 'map_name' => $map_name, 'styles' => json_decode( $styles_string, true ) );
 				}
@@ -413,7 +413,7 @@ class SiteOrigin_Widget_JsGoogleMap_Widget extends SiteOrigin_Widget {
 
 	private function get_static_image_src( $instance, $width, $height, $styles ) {
 		$src_url = "https://maps.googleapis.com/maps/api/staticmap?";
-		$src_url .= "center=" . $instance['settings']['map_center'];
+		$src_url .= "center=" . $instance['map_center'];
 		$src_url .= "&zoom=" . $instance['settings']['zoom'];
 		$src_url .= "&size=" . $width . "x" . $height;
 
