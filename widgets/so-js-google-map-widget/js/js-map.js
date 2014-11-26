@@ -17,6 +17,7 @@ function loadMap($) {
                 var mapOptions = {
                     zoom: zoom,
                     scrollwheel: Boolean( $$.data('scroll-zoom') ),
+                    draggable: Boolean( $$.data('draggable') ),
                     center: results[0].geometry.location,
                     mapTypeControlOptions: {
                         mapTypeIds: [google.maps.MapTypeId.ROADMAP, userMapTypeId]
@@ -43,7 +44,7 @@ function loadMap($) {
                     new google.maps.Marker({
                         position: results[0].geometry.location,
                         map: map,
-                        draggable: Boolean( $$.data('marker-draggable') ),
+                        draggable: Boolean( $$.data('markers-draggable') ),
                         icon: $$.data('marker-icon'),
                         title: ''
                     });
