@@ -1,0 +1,21 @@
+@networks: _;
+
+.loop(@counter) when (@counter > 0) {
+    .loop((@counter - 1));
+
+    @ntwk: extract(@networks, @counter);
+    @name: extract(@ntwk, 1);
+    @background_color: extract(@ntwk, 2);
+    @logo_color: extract(@ntwk, 3);
+    //TODO: use actual styles.
+    .@{name}-icon {
+        background-color: @background_color;
+        logo-color: @logo_color;
+    }
+}
+
+//lessphp doesn't have an implementation of the length function.
+//so this gets replaced with actual length.
+@networks-length: length(@networks);
+
+.loop(@networks-length);
