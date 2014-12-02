@@ -37,10 +37,16 @@
             window.sowFetchWidgetVariable('networks', 'SiteOrigin_Widget_SocialMediaIcons_Widget',
                 function(networks) {
                     var selectedNetwork = networks[$selectNetworkInput.find(':selected').val()];
-                    console.log(selectedNetwork);
-                    $selectNetworkInput.closest('.siteorigin-widget-field-repeater-item-form')
-                        .find('[id*="networks-url"]')
-                        .val(selectedNetwork.base_url);
+                    var $closestForm = $selectNetworkInput.closest('.siteorigin-widget-field-repeater-item-form');
+
+                    var $urlInput = $closestForm.find('[id*="networks-url"]');
+                    $urlInput.val(selectedNetwork.base_url);
+
+                    var $iconColorPicker = $closestForm.find('[id*="networks-icon_color"]');
+                    $iconColorPicker.wpColorPicker('color', selectedNetwork.icon_color);
+
+                    var $backgroundColorPicker = $closestForm.find('[id*="networks-background_color"]');
+                    $backgroundColorPicker.wpColorPicker('color', selectedNetwork.background_color);
                 }
             );
         };

@@ -18,32 +18,38 @@ class SiteOrigin_Widget_SocialMediaIcons_Widget extends SiteOrigin_Widget {
 			'facebook'    => array(
 				'label'    => __( 'Facebook', 'siteorigin-widgets' ),
 				'base_url' => 'https://www.facebook.com/',
-				'logo' => 'facebook-logo'
+				'icon_color' => '#FFFFFF',
+				'background_color' => '#3A5795'
 			),
 			'twitter'     => array(
 				'label'    => __( 'Twitter', 'siteorigin-widgets' ),
 				'base_url' => 'https://www.twitter.com/',
-				'logo'     => 'twitter-logo'
+				'icon_color' => '#FFFFFF',
+				'background_color' => '#78BDF1'
 			),
 			'google-plus' => array(
 				'label'    => __( 'Google+', 'siteorigin-widgets' ),
 				'base_url' => 'https://plus.google.com/',
-				'logo'     => 'google-plus-logo'
+				'icon_color' => '#FFFFFF',
+				'background_color' => '#DD4B39'
 			),
 			'rss'         => array(
 				'label'    => __( 'RSS', 'siteorigin-widgets' ),
 				'base_url' => '',
-				'logo'     => 'rss-logo'
+				'icon_color' => '#FFFFFF',
+				'background_color' => '#FAA21B'
 			),
 			'linkedin'    => array(
 				'label'    => __( 'LinkedIn', 'siteorigin-widgets' ),
 				'base_url' => 'https://www.linkedin.com/',
-				'logo'     => 'linkedin-logo'
+				'icon_color' => '#FFFFFF',
+				'background_color' => '#0177B4'
 			),
 			'pinterest'   => array(
 				'label'    => __( 'Pinterest', 'siteorigin-widgets' ),
 				'base_url' => 'https://www.pinterest.com/',
-				'logo'     => 'pinterest-logo'
+				'icon_color' => '#FFFFFF',
+				'background_color' => '#DB7C83'
 			)
 		);
 

@@ -1,16 +1,48 @@
-@networks: _;
+@import "../../../../so-widgets-bundle/base/less/mixins";
+//replace above import path with below when moving this over to main widgets bundle
+//"../../../base/less/mixins";
+
+@icon_size: 1.3em;
+@rounding: 0.25em;
+@padding: 0.75em;
+
+@networks: '';
 
 .loop(@counter) when (@counter > 0) {
     .loop((@counter - 1));
 
     @ntwk: extract(@networks, @counter);
     @name: extract(@ntwk, 1);
-    @background_color: extract(@ntwk, 2);
-    @logo_color: extract(@ntwk, 3);
-    //TODO: use actual styles.
-    .@{name}-icon {
-        background-color: @background_color;
-        logo-color: @logo_color;
+    @icon_color: extract(@ntwk, 2);
+    @background_color: extract(@ntwk, 3);
+
+
+    @border_color: darken(@background_color, 15%);
+
+    .sow-social-media-icon-@{name} {
+        color: @background_color !important;
+
+        font-size: @icon_size;
+        padding: @padding @padding*2;
+        margin: 5px;
+        background: transparent;
+
+        border: 2px solid @background_color;
+
+        .rounded(@rounding);
+
+        text-shadow: 0 1px 0 rgba(0,0,0,0.05);
+
+        &:visited,
+        &:active,
+        &:hover{
+            color: @background_color !important;
+        }
+
+        &.ow-button-hover:hover {
+            background: @background_color;
+            color: @icon_color !important;
+        }
     }
 }
 
@@ -18,4 +50,4 @@
 //so this gets replaced with actual length.
 @networks_length: length(@networks);
 
-.loop(@networks-length);
+.loop(@networks_length);
