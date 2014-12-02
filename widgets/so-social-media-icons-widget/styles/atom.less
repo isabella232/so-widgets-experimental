@@ -1,6 +1,6 @@
-//@import "../../../base/less/mixins";
-//replace below import with above when moving this over to main widgets bundle
 @import "../../../../so-widgets-bundle/base/less/mixins";
+//replace above import path with below when moving this over to main widgets bundle
+//"../../../base/less/mixins";
 
 @icon_size: 1.3em;
 @rounding: 0.25em;
@@ -20,7 +20,7 @@
     @border_color: darken(@background_color, 15%);
 
     .sow-social-media-icon-@{name} {
-        color: #ffffff;@icon_color;
+        color: @icon_color;
 
         font-size: @icon_size;
         padding: @padding @padding*2;
