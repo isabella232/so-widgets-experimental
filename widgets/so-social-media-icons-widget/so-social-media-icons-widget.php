@@ -1,4 +1,5 @@
 <?php
+
 /*
 Widget Name: Social Media Icons Widget
 Description: A simple social media icons widget.
@@ -15,34 +16,34 @@ class SiteOrigin_Widget_SocialMediaIcons_Widget extends SiteOrigin_Widget {
 
 		$this->networks = array(
 			'facebook'    => array(
-				'label' => __( 'Facebook', 'siteorigin-widgets' ),
+				'label'    => __( 'Facebook', 'siteorigin-widgets' ),
 				'base_url' => 'https://www.facebook.com/',
 				'logo' => 'facebook-logo'
 			),
 			'twitter'     => array(
-				'label' => __( 'Twitter', 'siteorigin-widgets' ),
+				'label'    => __( 'Twitter', 'siteorigin-widgets' ),
 				'base_url' => 'https://www.twitter.com/',
-				'logo' => 'twitter-logo'
+				'logo'     => 'twitter-logo'
 			),
-			'google_plus' => array(
-				'label' => __( 'Google+', 'siteorigin-widgets' ),
+			'google-plus' => array(
+				'label'    => __( 'Google+', 'siteorigin-widgets' ),
 				'base_url' => 'https://plus.google.com/',
-				'logo' => 'twitter-logo'
+				'logo'     => 'google-plus-logo'
 			),
 			'rss'         => array(
-				'label' => __( 'RSS', 'siteorigin-widgets' ),
+				'label'    => __( 'RSS', 'siteorigin-widgets' ),
 				'base_url' => '',
-				'logo' => 'rss-logo'
+				'logo'     => 'rss-logo'
 			),
 			'linkedin'    => array(
-				'label' => __( 'LinkedIn', 'siteorigin-widgets' ),
+				'label'    => __( 'LinkedIn', 'siteorigin-widgets' ),
 				'base_url' => 'https://www.linkedin.com/',
-				'logo' => 'linkedin-logo'
+				'logo'     => 'linkedin-logo'
 			),
 			'pinterest'   => array(
-				'label' => __( 'Pinterest', 'siteorigin-widgets' ),
+				'label'    => __( 'Pinterest', 'siteorigin-widgets' ),
 				'base_url' => 'https://www.pinterest.com/',
-				'logo' => 'pinterest-logo'
+				'logo'     => 'pinterest-logo'
 			)
 		);
 
@@ -60,7 +61,7 @@ class SiteOrigin_Widget_SocialMediaIcons_Widget extends SiteOrigin_Widget {
 			),
 			array(),
 			array(
-				'networks' => array(
+				'networks'   => array(
 					'type'       => 'repeater',
 					'label'      => __( 'Networks', 'siteorigin-widgets' ),
 					'item_name'  => __( 'Network', 'siteorigin-widgets' ),
@@ -70,52 +71,86 @@ class SiteOrigin_Widget_SocialMediaIcons_Widget extends SiteOrigin_Widget {
 						'value_method' => 'text'
 					),
 					'fields'     => array(
-						'name'    => array(
+						'name'             => array(
 							'type'    => 'select',
-							'label'   => __( '', 'siteorigin-widgets'),
-							'prompt' => __('Select network', 'siteorigin-widgets'),
+							'label'   => __( '', 'siteorigin-widgets' ),
+							'prompt'  => __( 'Select network', 'siteorigin-widgets' ),
 							'options' => $network_names
 						),
-						'url'      => array(
+						'url'              => array(
 							'type'  => 'text',
 							'label' => __( 'URL', 'siteorigin-widgets' )
 						),
-						'size'       => array(
-							'type'    => 'select',
-							'label'   => __( 'Icon size', 'siteorigin-widgets' ),
-							'options' => array(
-								'small'  => __( 'Small', 'siteorigin-widgets' ),
-								'medium' => __( 'Medium', 'siteorigin-widgets' ),
-								'large'  => __( 'Large', 'siteorigin-widgets' )
-							)
-						),
-						'new_window' => array(
-							'type'    => 'checkbox',
-							'label'   => __( 'Open in a new window', 'siteorigin-widgets' ),
-							'default' => true
-						),
-						'logo_color' => array(
-							'type' => 'color',
-							'label' => __('Logo color', 'siteorigin-widgets')
+						'icon_color'       => array(
+							'type'  => 'color',
+							'label' => __( 'Icon color', 'siteorigin-widgets' )
 						),
 						'background_color' => array(
-							'type' => 'color',
-							'label' => __('Background color', 'siteorigin-widgets')
+							'type'  => 'color',
+							'label' => __( 'Background color', 'siteorigin-widgets' )
 						)
 					)
-				)
+				),
+				'new_window' => array(
+					'type'    => 'checkbox',
+					'label'   => __( 'Open in a new window', 'siteorigin-widgets' ),
+					'default' => true
+				),
+				'theme'      => array(
+					'type'    => 'select',
+					'label'   => __( 'Icon Theme', 'siteorigin-widgets' ),
+					'default' => 'atom',
+					'options' => array(
+						'atom' => __( 'Atom', 'siteorigin-widgets' ),
+						'flat' => __( 'Flat', 'siteorigin-widgets' ),
+						'wire' => __( 'Wire', 'siteorigin-widgets' ),
+					),
+				),
+				'icon_size'  => array(
+					'type'    => 'select',
+					'label'   => __( 'Icon size', 'siteorigin-widgets' ),
+					'options' => array(
+						'1'    => __( 'Normal', 'siteorigin-widgets' ),
+						'1.15' => __( 'Medium', 'siteorigin-widgets' ),
+						'1.3'  => __( 'Large', 'siteorigin-widgets' ),
+						'1.45' => __( 'Extra Large', 'siteorigin-widgets' )
+					)
+				),
+				'rounding'   => array(
+					'type'    => 'select',
+					'label'   => __( 'Rounding', 'siteorigin-widgets' ),
+					'default' => '0.25',
+					'options' => array(
+						'0'    => __( 'None', 'siteorigin-widgets' ),
+						'0.25' => __( 'Slight Rounding', 'siteorigin-widgets' ),
+						'0.5'  => __( 'Very Rounded', 'siteorigin-widgets' ),
+						'1.5'  => __( 'Completely Rounded', 'siteorigin-widgets' ),
+					),
+				),
+				'padding'    => array(
+					'type'    => 'select',
+					'label'   => __( 'Padding', 'siteorigin-widgets' ),
+					'default' => '1',
+					'options' => array(
+						'0.5' => __( 'Low', 'siteorigin-widgets' ),
+						'1'   => __( 'Medium', 'siteorigin-widgets' ),
+						'1.4' => __( 'High', 'siteorigin-widgets' ),
+						'1.8' => __( 'Very High', 'siteorigin-widgets' ),
+					),
+				),
 			)
 		);
 	}
 
-	function get_javascript_variables(){
+	function get_javascript_variables() {
 		$so_social_media_widget_variables = array( 'networks' => $this->networks );
 		wp_localize_script( 'sow-social-media-icons', 'SiteOrigin_Widget_SocialMediaIcons_Widget', $so_social_media_widget_variables );
+
 		return $so_social_media_widget_variables;
 	}
 
 	function enqueue_admin_scripts() {
-			wp_enqueue_script( 'sow-social-media-icons', siteorigin_widget_get_plugin_dir_url( 'social-media-icons' ) . 'js/social-media-icons-admin.js', array( 'jquery' ), SOW_BUNDLE_VERSION . "sd");
+		wp_enqueue_script( 'sow-social-media-icons', siteorigin_widget_get_plugin_dir_url( 'social-media-icons' ) . 'js/social-media-icons-admin.js', array( 'jquery' ), SOW_BUNDLE_VERSION );
 	}
 
 	function get_template_name( $instance ) {
@@ -123,23 +158,40 @@ class SiteOrigin_Widget_SocialMediaIcons_Widget extends SiteOrigin_Widget {
 	}
 
 	function get_style_name( $instance ) {
-		return 'social-media-icons';
+		if ( empty( $instance['theme'] ) ) {
+			return 'atom';
+		}
+
+		return $instance['theme'];
 	}
 
-	function get_less_variables($instance){
+	function get_less_variables( $instance ) {
+
 		$less_vars = array_map(
-			function($ntwk) {
-				return $ntwk['name'] . ' ' . $ntwk['logo_color'] . ' ' . $ntwk['background_color'];
+			function ( $ntwk ) {
+				$pluck_keys = array( 'name', 'icon_color', 'background_color');
+				$ntwk_vars  = '';
+				foreach ( $pluck_keys as $i => $pluck_key ) {
+					$ntwk_vars .= $ntwk[ $pluck_key ];
+					$ntwk_vars .= $i < count( $pluck_keys ) ? ' ' : '';
+				}
+
+				return $ntwk_vars;
 			},
 			$instance['networks']
 		);
 
-		return array('networks' => $less_vars );
+		return array(
+			'networks' => $less_vars,
+			'icon_size' => $instance['icon_size'] . 'em',
+			'rounding' => $instance['rounding'] . 'em',
+			'padding' => $instance['padding'] . 'em'
+		);
 	}
 
 	function get_template_variables( $instance, $args ) {
 		return array(
-			'icons' => $instance['networks']
+			'networks' => $instance['networks']
 		);
 	}
 }
