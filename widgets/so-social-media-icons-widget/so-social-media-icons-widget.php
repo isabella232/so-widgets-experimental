@@ -173,19 +173,8 @@ class SiteOrigin_Widget_SocialMediaIcons_Widget extends SiteOrigin_Widget {
 
 	function get_less_variables( $instance ) {
 		$networks = isset( $instance['networks'] ) && ! empty( $instance['networks'] ) ? $instance['networks'] : array();
-		$network_vars = array_map(
-			function ( $ntwk ) {
-				$pluck_keys = array( 'name', 'icon_color', 'background_color');
-				$ntwk_vars  = '';
-				foreach ( $pluck_keys as $i => $pluck_key ) {
-					$ntwk_vars .= $ntwk[ $pluck_key ];
-					$ntwk_vars .= $i < count( $pluck_keys ) ? ' ' : '';
-				}
 
-				return $ntwk_vars;
-			},
-			$networks
-		);
+		$network_vars = array_map(array($this, 'network_to_less_string_array'), $networks);
 
 		return array(
 			'networks' => $network_vars,
@@ -193,6 +182,17 @@ class SiteOrigin_Widget_SocialMediaIcons_Widget extends SiteOrigin_Widget {
 			'rounding' => $instance['rounding'] . 'em',
 			'padding' => $instance['padding'] . 'em'
 		);
+	}
+
+	private function network_to_less_string_array( $ntwk ) {
+		$pluck_keys = array( 'name', 'icon_color', 'background_color');
+		$ntwk_vars  = '';
+		foreach ( $pluck_keys as $i => $pluck_key ) {
+			$ntwk_vars .= $ntwk[ $pluck_key ];
+			$ntwk_vars .= $i+1 < count( $pluck_keys ) ? ' ' : '';
+		}
+
+		return $ntwk_vars;
 	}
 
 	function get_template_variables( $instance, $args ) {
