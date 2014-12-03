@@ -13,8 +13,8 @@
 //we expect @networks to be a list of lists, but when there is only one network, there is no syntax to distinguish
 //between a list with only one item (which is also a list) in it, and a list of any other types and as a result the
 //length function returns the length of the one item in the list, instead of the length of the list.
-//@networks_length: 1;
-@networks_length: length(@networks);
+@networks_length: 1;
+//@networks_length: length(@networks);
 
 //the recursive mixin which loops over the @networks list when it contains more than 1 item.
 .loop(@counter) when (@counter > 0) and (@networks_length > 1) {
