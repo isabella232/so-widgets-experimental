@@ -35,7 +35,7 @@ class SiteOrigin_Widget_SocialMediaIcons_Widget extends SiteOrigin_Widget {
 			),
 			'rss'         => array(
 				'label'    => __( 'RSS', 'siteorigin-widgets' ),
-				'base_url' => '',
+				'base_url' => get_bloginfo('rss_url'),
 				'icon_color' => '#FFFFFF',
 				'background_color' => '#FAA21B'
 			),
@@ -172,8 +172,8 @@ class SiteOrigin_Widget_SocialMediaIcons_Widget extends SiteOrigin_Widget {
 	}
 
 	function get_less_variables( $instance ) {
-
-		$less_vars = array_map(
+		$networks = isset( $instance['networks'] ) && ! empty( $instance['networks'] ) ? $instance['networks'] : array();
+		$network_vars = array_map(
 			function ( $ntwk ) {
 				$pluck_keys = array( 'name', 'icon_color', 'background_color');
 				$ntwk_vars  = '';
@@ -184,11 +184,11 @@ class SiteOrigin_Widget_SocialMediaIcons_Widget extends SiteOrigin_Widget {
 
 				return $ntwk_vars;
 			},
-			$instance['networks']
+			$networks
 		);
 
 		return array(
-			'networks' => $less_vars,
+			'networks' => $network_vars,
 			'icon_size' => $instance['icon_size'] . 'em',
 			'rounding' => $instance['rounding'] . 'em',
 			'padding' => $instance['padding'] . 'em'
@@ -197,7 +197,7 @@ class SiteOrigin_Widget_SocialMediaIcons_Widget extends SiteOrigin_Widget {
 
 	function get_template_variables( $instance, $args ) {
 		return array(
-			'networks' => $instance['networks']
+			'networks' => isset($instance['networks']) ? $instance['networks'] : array()
 		);
 	}
 }

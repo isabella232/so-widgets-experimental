@@ -6,15 +6,30 @@
 @rounding: 0.25em;
 @padding: 0.75em;
 
-@networks: '';
+//need the placeholder item so that lessphp doesn't throw fatals when no networks are present
+//better solution is probably to try make lessphp better at handling empty items etc
+@networks: placeholder #ffffff #000000,;
 
-.loop(@counter) when (@counter > 0) {
+//we expect @networks to be a list of lists, but when there is only one network, there is no syntax to distinguish
+//between a list with only one item (which is also a list) in it, and a list of any other types and as a result the
+//length function returns the length of the one item in the list, instead of the length of the list.
+@networks_length: 1;
+//@networks_length: length(@networks);
+
+.loop(@counter) when (@counter > 0) and (@networks_length > 1) {
     .loop((@counter - 1));
 
-    @ntwk: extract(@networks, @counter);
-    @name: extract(@ntwk, 1);
-    @icon_color: extract(@ntwk, 2);
-    @background_color: extract(@ntwk, 3);
+    .social_media_style(extract(@networks, @counter));
+}
+
+.loop(@counter) when (@counter = 1) and (@networks_length = 1) {
+    .social_media_style(@networks);
+}
+
+.social_media_style(@network) {
+    @name: extract(@network, 1);
+    @icon_color: extract(@network, 2);
+    @background_color: extract(@network, 3);
 
 
     @border_color: darken(@background_color, 15%);
@@ -48,9 +63,5 @@
         }
     }
 }
-
-//lessphp doesn't have an implementation of the length function.
-//so this gets replaced with actual length.
-@networks_length: length(@networks);
 
 .loop(@networks_length);
