@@ -6,7 +6,7 @@ Description: A simple social media icons widget.
 Author: Greg Priday
 Author URI: http://siteorigin.com
 */
-
+include plugin_dir_path(__FILE__).'networks.php';
 
 class SiteOrigin_Widget_SocialMediaIcons_Widget extends SiteOrigin_Widget {
 
@@ -14,44 +14,7 @@ class SiteOrigin_Widget_SocialMediaIcons_Widget extends SiteOrigin_Widget {
 
 	function __construct() {
 
-		$this->networks = array(
-			'facebook'    => array(
-				'label'    => __( 'Facebook', 'siteorigin-widgets' ),
-				'base_url' => 'https://www.facebook.com/',
-				'icon_color' => '#FFFFFF',
-				'background_color' => '#3A5795'
-			),
-			'twitter'     => array(
-				'label'    => __( 'Twitter', 'siteorigin-widgets' ),
-				'base_url' => 'https://www.twitter.com/',
-				'icon_color' => '#FFFFFF',
-				'background_color' => '#78BDF1'
-			),
-			'google-plus' => array(
-				'label'    => __( 'Google+', 'siteorigin-widgets' ),
-				'base_url' => 'https://plus.google.com/',
-				'icon_color' => '#FFFFFF',
-				'background_color' => '#DD4B39'
-			),
-			'rss'         => array(
-				'label'    => __( 'RSS', 'siteorigin-widgets' ),
-				'base_url' => get_bloginfo('rss_url'),
-				'icon_color' => '#FFFFFF',
-				'background_color' => '#FAA21B'
-			),
-			'linkedin'    => array(
-				'label'    => __( 'LinkedIn', 'siteorigin-widgets' ),
-				'base_url' => 'https://www.linkedin.com/',
-				'icon_color' => '#FFFFFF',
-				'background_color' => '#0177B4'
-			),
-			'pinterest'   => array(
-				'label'    => __( 'Pinterest', 'siteorigin-widgets' ),
-				'base_url' => 'https://www.pinterest.com/',
-				'icon_color' => '#FFFFFF',
-				'background_color' => '#DB7C83'
-			)
-		);
+		$this->networks = siteorigin_social_media_widget_networks();
 
 		$network_names = array();
 		foreach ( $this->networks as $key => $value ) {
