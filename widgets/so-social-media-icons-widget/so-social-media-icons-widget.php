@@ -85,9 +85,9 @@ class SiteOrigin_Widget_SocialMediaIcons_Widget extends SiteOrigin_Widget {
 					'label'   => __( 'Icon size', 'siteorigin-widgets' ),
 					'options' => array(
 						'1'    => __( 'Normal', 'siteorigin-widgets' ),
-						'1.15' => __( 'Medium', 'siteorigin-widgets' ),
-						'1.3'  => __( 'Large', 'siteorigin-widgets' ),
-						'1.45' => __( 'Extra Large', 'siteorigin-widgets' )
+						'1.33' => __( 'Medium', 'siteorigin-widgets' ),
+						'1.66'  => __( 'Large', 'siteorigin-widgets' ),
+						'2' => __( 'Extra Large', 'siteorigin-widgets' )
 					)
 				),
 				'rounding'   => array(
