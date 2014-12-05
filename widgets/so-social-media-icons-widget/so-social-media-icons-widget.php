@@ -75,6 +75,11 @@ class SiteOrigin_Widget_SocialMediaIcons_Widget extends SiteOrigin_Widget {
 						'wire' => __( 'Wire', 'siteorigin-widgets' ),
 					),
 				),
+				'hover' => array(
+					'type' => 'checkbox',
+					'label' => __('User hover effects'),
+					'default' => true
+				),
 				'icon_size'  => array(
 					'type'    => 'select',
 					'label'   => __( 'Icon size', 'siteorigin-widgets' ),
