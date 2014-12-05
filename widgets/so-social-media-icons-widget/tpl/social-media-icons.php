@@ -1,4 +1,3 @@
-<div>
 <?php foreach( $networks as $network ) : ?>
 
 	<?php
@@ -14,4 +13,3 @@
 			</span>
 	</a>
 <?php endforeach; ?>
-</div>
