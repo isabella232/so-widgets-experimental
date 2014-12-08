@@ -6,7 +6,7 @@ Description: A simple social media icons widget.
 Author: Greg Priday
 Author URI: http://siteorigin.com
 */
-include plugin_dir_path(__FILE__).'networks.php';
+
 
 class SiteOrigin_Widget_SocialMediaIcons_Widget extends SiteOrigin_Widget {
 
@@ -14,7 +14,7 @@ class SiteOrigin_Widget_SocialMediaIcons_Widget extends SiteOrigin_Widget {
 
 	function __construct() {
 
-		$this->networks = siteorigin_social_media_widget_networks();
+		$this->networks = include plugin_dir_path(__FILE__).'networks.php';
 
 		$network_names = array();
 		foreach ( $this->networks as $key => $value ) {
