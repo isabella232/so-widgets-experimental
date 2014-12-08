@@ -14,23 +14,25 @@
 //between a list with only one item (which is also a list) in it, and a list of any other types and as a result the
 //length function returns the length of the one item in the list, instead of the length of the list.
 @networks_length: 1;
-//@networks_length: length(@networks);
 
-.loop(@counter) when (@counter > 0) and (@networks_length > 1) {
-    .loop((@counter - 1));
-
-    .social_media_style(extract(@networks, @counter));
+//the recursive mixin which loops over the @networks list when it contains more than 1 item.
+.create_network_styles() when (@networks_length > 1) {
+    .for(@networks, @networks_length); .-each(@network) {
+        .create_style(@network)
+    };
 }
 
-.loop(@counter) when (@counter = 1) and (@networks_length = 1) {
-    .social_media_style(@networks);
+//special handling for the case where there is only one network in the list
+.create_network_styles() when (@networks_length = 1) {
+    .create_style(@networks);
 }
 
-.social_media_style(@network) {
+.create_network_styles();
+
+.create_style(@network) {
     @name: extract(@network, 1);
     @icon_color: extract(@network, 2);
     @background_color: extract(@network, 3);
-
 
     @border_color: darken(@background_color, 15%);
 
@@ -62,5 +64,3 @@
         }
     }
 }
-
-.loop(@networks_length);
