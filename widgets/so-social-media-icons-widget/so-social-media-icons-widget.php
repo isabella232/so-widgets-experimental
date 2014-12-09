@@ -148,8 +148,9 @@ class SiteOrigin_Widget_SocialMediaIcons_Widget extends SiteOrigin_Widget {
 	}
 
 	function less_generate_calls_to( $instance, $args ) {
+		$networks = isset( $instance['networks'] ) && ! empty( $instance['networks'] ) ? $instance['networks'] : array();
 		$calls = array();
-		foreach ( $instance['networks'] as $network ) {
+		foreach ( $networks as $network ) {
 			$calls[] = $args[0] . '(' . $network['name'] . ', ' . $network['icon_color'] . ', ' . $network['background_color'] . ');';
 		}
 		return implode("\n", $calls);
