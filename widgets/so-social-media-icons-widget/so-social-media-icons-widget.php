@@ -140,24 +140,19 @@ class SiteOrigin_Widget_SocialMediaIcons_Widget extends SiteOrigin_Widget {
 	}
 
 	function get_less_variables( $instance ) {
-		$networks = isset( $instance['networks'] ) && ! empty( $instance['networks'] ) ? $instance['networks'] : array();
-
-		$network_vars = array();
-
-		foreach ( $networks as $network ) {
-			$nt_var = trim( $network['name'] . ' ' . $network['icon_color'] . ' ' . $network['background_color'] );
-
-			if(!empty( $nt_var )) {
-				$network_vars[] = $nt_var;
-			}
-		}
-
 		return array(
-			'networks' => $network_vars,
 			'icon_size' => $instance['icon_size'] . 'em',
 			'rounding' => $instance['rounding'] . 'em',
 			'padding' => $instance['padding'] . 'em'
 		);
+	}
+
+	function less_generate_calls_to( $instance, $args ) {
+		$calls = array();
+		foreach ( $instance['networks'] as $network ) {
+			$calls[] = $args[0] . '(' . $network['name'] . ', ' . $network['icon_color'] . ', ' . $network['background_color'] . ');';
+		}
+		return implode("\n", $calls);
 	}
 
 	function get_template_variables( $instance, $args ) {
