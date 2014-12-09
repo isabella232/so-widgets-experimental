@@ -6,33 +6,7 @@
 @rounding: 0.25em;
 @padding: 0.75em;
 
-//need the placeholder item so that lessphp doesn't throw fatals when no networks are present
-//better solution is probably to try make lessphp better at handling empty items etc
-@networks: placeholder #ffffff #000000;
-
-//we expect @networks to be a list of lists, but when there is only one network, there is no syntax to distinguish
-//between a list with only one item (which is also a list) in it, and a list of any other types and as a result the
-//length function returns the length of the one item in the list, instead of the length of the list.
-@networks_length: 1;
-
-//the recursive mixin which loops over the @networks list when it contains more than 1 item.
-.create_network_styles() when (@networks_length > 1) {
-    .for(@networks, @networks_length); .-each(@network) {
-        .create_style(@network)
-    };
-}
-
-//special handling for the case where there is only one network in the list
-.create_network_styles() when (@networks_length = 1) {
-    .create_style(@networks);
-}
-
-.create_network_styles();
-
-.create_style(@network) {
-    @name: extract(@network, 1);
-    @icon_color: extract(@network, 2);
-    @background_color: extract(@network, 3);
+.create_social_media_icon_style(@name, @icon_color, @background_color) {
 
     .sow-social-media-icon-@{name} {
         color: @icon_color !important;
@@ -61,3 +35,5 @@
         }
     }
 }
+
+.widget-function('generate_calls_to', .create_social_media_icon_style);
