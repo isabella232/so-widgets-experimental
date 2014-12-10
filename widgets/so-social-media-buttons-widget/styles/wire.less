@@ -2,27 +2,20 @@
 //replace above import path with below when moving this over to main widgets bundle
 //"../../../base/less/mixins";
 
-@icon_size: 1.3em;
-@rounding: 0.25em;
-@padding: 0.75em;
+.widget-function('inject_widget_mixins');
 
-.create_social_media_icon_style(@name, @icon_color, @background_color) {
+.widget-function('generate_calls_to', .create_social_media_button_style);
+
+.create_social_media_button_style(@name, @icon_color, @background_color) {
 
     @border_color: darken(@background_color, 15%);
 
-    .sow-social-media-icon-@{name} {
+    .sow-social-media-button-@{name} {
+        .social-media-button-base();
         color: @background_color !important;
 
-        font-size: @icon_size;
-        padding: @padding @padding;
-        margin: 5px;
         background: transparent;
         border: 2px solid @background_color;
-        display: inline-block;
-        width: 1.3em;
-        text-align: center;
-
-        .rounded(@rounding);
 
         text-shadow: 0 1px 0 rgba(0,0,0,0.05);
 
@@ -38,5 +31,3 @@
         }
     }
 }
-
-.widget-function('generate_calls_to', .create_social_media_icon_style);

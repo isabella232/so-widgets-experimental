@@ -2,29 +2,22 @@
 //replace above import path with below when moving this over to main widgets bundle
 //"../../../base/less/mixins";
 
-@icon_size: 1.3em;
-@rounding: 0.25em;
-@padding: 0.75em;
+.widget-function('inject_widget_mixins');
 
-.create_social_media_icon_style(@name, @icon_color, @background_color) {
+.widget-function('generate_calls_to', .create_social_media_button_style);
 
-    @border_color: darken(@background_color, 15%);
+.create_social_media_button_style(@name, @icon_color, @button_color) {
 
-    .sow-social-media-icon-@{name} {
+    @border_color: darken(@button_color, 15%);
+
+    .sow-social-media-button-@{name} {
+        .social-media-button-base();
+
         color: @icon_color !important;
 
-        font-size: @icon_size;
-        padding: @padding @padding;
-        margin: 5px;
-        display: inline-block;
-        width: 1.3em;
-        text-align: center;
-
-        .gradient(@background_color, darken(@background_color, 10%), @background_color);
+        .gradient(@button_color, darken(@button_color, 10%), @button_color);
         border: 1px solid;
         border-color: lighten(@border_color, 2%) @border_color darken(@border_color, 3%) @border_color;
-
-        .rounded(@rounding);
 
         .box-shadow(~"inset 0 1px 0 rgba(255,255,255,0.2), 0 1px 2px rgba(0,0,0,0.065)");
         text-shadow: 0 1px 0 rgba(0,0,0,0.05);
@@ -36,11 +29,9 @@
         }
 
         &.ow-button-hover:hover {
-            .gradient(lighten(@background_color, 2%), lighten(darken(@background_color, 10%), 2%), lighten(@background_color, 2%));
+            .gradient(lighten(@button_color, 2%), lighten(darken(@button_color, 10%), 2%), lighten(@button_color, 2%));
             border-color: lighten(lighten(@border_color, 2%), 2%) lighten(@border_color, 2%) darken(lighten(@border_color, 2%), 3%) lighten(@border_color, 2%);
             color: lighten(@icon_color, 2%);
         }
     }
 }
-
-.widget-function('generate_calls_to', .create_social_media_icon_style);

@@ -30,11 +30,11 @@
     };
 
     // After the form is setup, add some custom stuff.
-    $(document).on( 'sowsetupform', '.siteorigin-widget-form[data-class="SiteOrigin_Widget_SocialMediaIcons_Widget"]', function() {
+    $(document).on( 'sowsetupform', '.siteorigin-widget-form[data-class="SiteOrigin_Widget_SocialMediaButtons_Widget"]', function() {
         var $socialMediaForm = $(this);
 
         var setNetworkDefaults = function($selectNetworkInput) {
-            window.sowFetchWidgetVariable('networks', 'SiteOrigin_Widget_SocialMediaIcons_Widget',
+            window.sowFetchWidgetVariable('networks', 'SiteOrigin_Widget_SocialMediaButtons_Widget',
                 function(networks) {
                     var selectedNetwork = networks[$selectNetworkInput.find(':selected').val()];
                     var $closestForm = $selectNetworkInput.closest('.siteorigin-widget-field-repeater-item-form');
@@ -45,8 +45,8 @@
                     var $iconColorPicker = $closestForm.find('[id*="networks-icon_color"]');
                     $iconColorPicker.wpColorPicker('color', selectedNetwork.icon_color);
 
-                    var $backgroundColorPicker = $closestForm.find('[id*="networks-background_color"]');
-                    $backgroundColorPicker.wpColorPicker('color', selectedNetwork.background_color);
+                    var $buttonColorPicker = $closestForm.find('[id*="networks-button_color"]');
+                    $buttonColorPicker.wpColorPicker('color', selectedNetwork.button_color);
                 }
             );
         };
