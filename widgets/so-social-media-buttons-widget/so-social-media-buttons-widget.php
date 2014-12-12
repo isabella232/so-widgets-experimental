@@ -1,8 +1,8 @@
 <?php
 
 /*
-Widget Name: Social Media Buttons Widget
-Description: A simple social media buttons widget.
+Widget Name: Social media buttons widget
+Description: Customizable buttons which link to all your social media profiles.
 Author: SiteOrigin
 Author URI: http://siteorigin.com
 */
@@ -72,7 +72,7 @@ class SiteOrigin_Widget_SocialMediaButtons_Widget extends SiteOrigin_Widget {
 						),
 						'theme'      => array(
 							'type'    => 'select',
-							'label'   => __( 'Button Theme', 'siteorigin-widgets' ),
+							'label'   => __( 'Button theme', 'siteorigin-widgets' ),
 							'default' => 'atom',
 							'options' => array(
 								'atom' => __( 'Atom', 'siteorigin-widgets' ),
@@ -92,7 +92,7 @@ class SiteOrigin_Widget_SocialMediaButtons_Widget extends SiteOrigin_Widget {
 								'1'    => __( 'Normal', 'siteorigin-widgets' ),
 								'1.33' => __( 'Medium', 'siteorigin-widgets' ),
 								'1.66' => __( 'Large', 'siteorigin-widgets' ),
-								'2'    => __( 'Extra Large', 'siteorigin-widgets' )
+								'2'    => __( 'Extra large', 'siteorigin-widgets' )
 							)
 						),
 						'rounding'   => array(
@@ -101,9 +101,9 @@ class SiteOrigin_Widget_SocialMediaButtons_Widget extends SiteOrigin_Widget {
 							'default' => '0.25',
 							'options' => array(
 								'0'    => __( 'None', 'siteorigin-widgets' ),
-								'0.25' => __( 'Slight Rounding', 'siteorigin-widgets' ),
-								'0.5'  => __( 'Very Rounded', 'siteorigin-widgets' ),
-								'1.5'  => __( 'Completely Rounded', 'siteorigin-widgets' ),
+								'0.25' => __( 'Slightly rounded', 'siteorigin-widgets' ),
+								'0.5'  => __( 'Very rounded', 'siteorigin-widgets' ),
+								'1.5'  => __( 'Completely rounded', 'siteorigin-widgets' ),
 							),
 						),
 						'padding'    => array(
@@ -114,7 +114,7 @@ class SiteOrigin_Widget_SocialMediaButtons_Widget extends SiteOrigin_Widget {
 								'0.5' => __( 'Low', 'siteorigin-widgets' ),
 								'1'   => __( 'Medium', 'siteorigin-widgets' ),
 								'1.4' => __( 'High', 'siteorigin-widgets' ),
-								'1.8' => __( 'Very High', 'siteorigin-widgets' ),
+								'1.8' => __( 'Very high', 'siteorigin-widgets' ),
 							),
 						),
 						'align'      => array(
@@ -136,7 +136,7 @@ class SiteOrigin_Widget_SocialMediaButtons_Widget extends SiteOrigin_Widget {
 								'0.1' => __( 'Low', 'siteorigin-widgets' ),
 								'0.2' => __( 'Medium', 'siteorigin-widgets' ),
 								'0.3' => __( 'High', 'siteorigin-widgets' ),
-								'0.4' => __( 'Very High', 'siteorigin-widgets' ),
+								'0.4' => __( 'Very high', 'siteorigin-widgets' ),
 							),
 						),
 					)

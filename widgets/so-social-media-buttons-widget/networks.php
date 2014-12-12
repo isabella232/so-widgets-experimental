@@ -92,7 +92,7 @@ return array(
 		'button_color' => '#58ACFD'
 	),
 	'deviantart'   => array(
-		'label'    => __( 'Deviant Art', 'siteorigin-widgets' ),
+		'label'    => __( 'deviantArt', 'siteorigin-widgets' ),
 		'base_url' => 'http://www.deviantart.com/',
 		'icon_color' => '#FFFFFF',
 		'button_color' => '#B2C01C'
