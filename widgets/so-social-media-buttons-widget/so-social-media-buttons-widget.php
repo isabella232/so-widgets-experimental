@@ -21,122 +21,6 @@ class SiteOrigin_Widget_SocialMediaButtons_Widget extends SiteOrigin_Widget {
 			$network_names[ $key ] = $value['label'];
 		}
 
-		$form_options = array(
-			'networks' => array(
-				'type'       => 'repeater',
-				'label'      => __( 'Networks', 'siteorigin-widgets' ),
-				'item_name'  => __( 'Network', 'siteorigin-widgets' ),
-				'item_label' => array(
-					'selector'     => "[id*='networks-name'] :selected",
-					'update_event' => 'change',
-					'value_method' => 'text'
-				),
-				'fields'     => array(
-					'name'         => array(
-						'type'    => 'select',
-						'label'   => __( '', 'siteorigin-widgets' ),
-						'prompt'  => __( 'Select network', 'siteorigin-widgets' ),
-						'options' => $network_names
-					),
-					'url'          => array(
-						'type'  => 'text',
-						'label' => __( 'URL', 'siteorigin-widgets' )
-					),
-					'icon_color'   => array(
-						'type'  => 'color',
-						'label' => __( 'Icon color', 'siteorigin-widgets' )
-					),
-					'button_color' => array(
-						'type'  => 'color',
-						'label' => __( 'Background color', 'siteorigin-widgets' )
-					)
-				)
-			),
-			'design'   => array(
-				'type'   => 'section',
-				'label'  => __( 'Design and layout' ),
-				'hide'   => true,
-				'fields' => array(
-					'new_window' => array(
-						'type'    => 'checkbox',
-						'label'   => __( 'Open in a new window', 'siteorigin-widgets' ),
-						'default' => true
-					),
-					'theme'      => array(
-						'type'    => 'select',
-						'label'   => __( 'Button theme', 'siteorigin-widgets' ),
-						'default' => 'atom',
-						'options' => array(
-							'atom' => __( 'Atom', 'siteorigin-widgets' ),
-							'flat' => __( 'Flat', 'siteorigin-widgets' ),
-							'wire' => __( 'Wire', 'siteorigin-widgets' ),
-						),
-					),
-					'hover'      => array(
-						'type'    => 'checkbox',
-						'label'   => __( 'Use hover effects' ),
-						'default' => true
-					),
-					'icon_size'  => array(
-						'type'    => 'select',
-						'label'   => __( 'Icon size', 'siteorigin-widgets' ),
-						'options' => array(
-							'1'    => __( 'Normal', 'siteorigin-widgets' ),
-							'1.33' => __( 'Medium', 'siteorigin-widgets' ),
-							'1.66' => __( 'Large', 'siteorigin-widgets' ),
-							'2'    => __( 'Extra large', 'siteorigin-widgets' )
-						)
-					),
-					'rounding'   => array(
-						'type'    => 'select',
-						'label'   => __( 'Rounding', 'siteorigin-widgets' ),
-						'default' => '0.25',
-						'options' => array(
-							'0'    => __( 'None', 'siteorigin-widgets' ),
-							'0.25' => __( 'Slightly rounded', 'siteorigin-widgets' ),
-							'0.5'  => __( 'Very rounded', 'siteorigin-widgets' ),
-							'1.5'  => __( 'Completely rounded', 'siteorigin-widgets' ),
-						),
-					),
-					'padding'    => array(
-						'type'    => 'select',
-						'label'   => __( 'Padding', 'siteorigin-widgets' ),
-						'default' => '1',
-						'options' => array(
-							'0.5' => __( 'Low', 'siteorigin-widgets' ),
-							'1'   => __( 'Medium', 'siteorigin-widgets' ),
-							'1.4' => __( 'High', 'siteorigin-widgets' ),
-							'1.8' => __( 'Very high', 'siteorigin-widgets' ),
-						),
-					),
-					'align'      => array(
-						'type'    => 'select',
-						'label'   => __( 'Align', 'siteorigin-widgets' ),
-						'default' => 'left',
-						'options' => array(
-							'left'    => __( 'Left', 'siteorigin-widgets' ),
-							'right'   => __( 'Right', 'siteorigin-widgets' ),
-							'center'  => __( 'Center', 'siteorigin-widgets' ),
-							'justify' => __( 'Justify', 'siteorigin-widgets' ),
-						),
-					),
-					'margin'     => array(
-						'type'    => 'select',
-						'label'   => __( 'Margin', 'siteorigin-widgets' ),
-						'default' => '0.1',
-						'options' => array(
-							'0.1' => __( 'Low', 'siteorigin-widgets' ),
-							'0.2' => __( 'Medium', 'siteorigin-widgets' ),
-							'0.3' => __( 'High', 'siteorigin-widgets' ),
-							'0.4' => __( 'Very high', 'siteorigin-widgets' ),
-						),
-					),
-				)
-			),
-		);
-
-		$form_options = apply_filters('sow_social_media_buttons_form_options', $form_options);
-
 		parent::__construct(
 			'sow-social-media-buttons',
 			__( 'SiteOrigin Social Media Buttons', 'siteorigin-widgets' ),
@@ -145,8 +29,128 @@ class SiteOrigin_Widget_SocialMediaButtons_Widget extends SiteOrigin_Widget {
 				'help'        => 'http://siteorigin.com/widgets-bundle/social-media-buttons-widget-documentation/'
 			),
 			array(),
-			$form_options
+			array(
+				'networks' => array(
+					'type'       => 'repeater',
+					'label'      => __( 'Networks', 'siteorigin-widgets' ),
+					'item_name'  => __( 'Network', 'siteorigin-widgets' ),
+					'item_label' => array(
+						'selector'     => "[id*='networks-name'] :selected",
+						'update_event' => 'change',
+						'value_method' => 'text'
+					),
+					'fields'     => array(
+						'name'         => array(
+							'type'    => 'select',
+							'label'   => __( '', 'siteorigin-widgets' ),
+							'prompt'  => __( 'Select network', 'siteorigin-widgets' ),
+							'options' => $network_names
+						),
+						'url'          => array(
+							'type'  => 'text',
+							'label' => __( 'URL', 'siteorigin-widgets' )
+						),
+						'icon_color'   => array(
+							'type'  => 'color',
+							'label' => __( 'Icon color', 'siteorigin-widgets' )
+						),
+						'button_color' => array(
+							'type'  => 'color',
+							'label' => __( 'Background color', 'siteorigin-widgets' )
+						)
+					)
+				),
+				'design'   => array(
+					'type'   => 'section',
+					'label'  => __( 'Design and layout' ),
+					'hide'   => true,
+					'fields' => array(
+						'new_window' => array(
+							'type'    => 'checkbox',
+							'label'   => __( 'Open in a new window', 'siteorigin-widgets' ),
+							'default' => true
+						),
+						'theme'      => array(
+							'type'    => 'select',
+							'label'   => __( 'Button theme', 'siteorigin-widgets' ),
+							'default' => 'atom',
+							'options' => array(
+								'atom' => __( 'Atom', 'siteorigin-widgets' ),
+								'flat' => __( 'Flat', 'siteorigin-widgets' ),
+								'wire' => __( 'Wire', 'siteorigin-widgets' ),
+							),
+						),
+						'hover'      => array(
+							'type'    => 'checkbox',
+							'label'   => __( 'Use hover effects' ),
+							'default' => true
+						),
+						'icon_size'  => array(
+							'type'    => 'select',
+							'label'   => __( 'Icon size', 'siteorigin-widgets' ),
+							'options' => array(
+								'1'    => __( 'Normal', 'siteorigin-widgets' ),
+								'1.33' => __( 'Medium', 'siteorigin-widgets' ),
+								'1.66' => __( 'Large', 'siteorigin-widgets' ),
+								'2'    => __( 'Extra large', 'siteorigin-widgets' )
+							)
+						),
+						'rounding'   => array(
+							'type'    => 'select',
+							'label'   => __( 'Rounding', 'siteorigin-widgets' ),
+							'default' => '0.25',
+							'options' => array(
+								'0'    => __( 'None', 'siteorigin-widgets' ),
+								'0.25' => __( 'Slightly rounded', 'siteorigin-widgets' ),
+								'0.5'  => __( 'Very rounded', 'siteorigin-widgets' ),
+								'1.5'  => __( 'Completely rounded', 'siteorigin-widgets' ),
+							),
+						),
+						'padding'    => array(
+							'type'    => 'select',
+							'label'   => __( 'Padding', 'siteorigin-widgets' ),
+							'default' => '1',
+							'options' => array(
+								'0.5' => __( 'Low', 'siteorigin-widgets' ),
+								'1'   => __( 'Medium', 'siteorigin-widgets' ),
+								'1.4' => __( 'High', 'siteorigin-widgets' ),
+								'1.8' => __( 'Very high', 'siteorigin-widgets' ),
+							),
+						),
+						'align'      => array(
+							'type'    => 'select',
+							'label'   => __( 'Align', 'siteorigin-widgets' ),
+							'default' => 'left',
+							'options' => array(
+								'left'    => __( 'Left', 'siteorigin-widgets' ),
+								'right'   => __( 'Right', 'siteorigin-widgets' ),
+								'center'  => __( 'Center', 'siteorigin-widgets' ),
+								'justify' => __( 'Justify', 'siteorigin-widgets' ),
+							),
+						),
+						'margin'     => array(
+							'type'    => 'select',
+							'label'   => __( 'Margin', 'siteorigin-widgets' ),
+							'default' => '0.1',
+							'options' => array(
+								'0.1' => __( 'Low', 'siteorigin-widgets' ),
+								'0.2' => __( 'Medium', 'siteorigin-widgets' ),
+								'0.3' => __( 'High', 'siteorigin-widgets' ),
+								'0.4' => __( 'Very high', 'siteorigin-widgets' ),
+							),
+						),
+					)
+				),
+			)
 		);
+	}
+
+	function modify_form( $form ) {
+		return apply_filters( 'sow_social_media_buttons_form_options', $form );
+	}
+
+	function modify_instance( $instance ) {
+		return apply_filters( 'sow_social_media_buttons_instance', $instance );
 	}
 
 	function get_javascript_variables() {
