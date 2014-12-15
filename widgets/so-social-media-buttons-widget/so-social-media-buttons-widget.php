@@ -150,7 +150,10 @@ class SiteOrigin_Widget_SocialMediaButtons_Widget extends SiteOrigin_Widget {
 	}
 
 	function modify_instance( $instance ) {
-		return apply_filters( 'sow_social_media_buttons_instance', $instance );
+		foreach ( $instance['networks'] as $name => $network ) {
+			$instance['networks'][$name]['icon_name'] = 'fontawesome-' . $network['name'];
+		}
+		return $instance;
 	}
 
 	function get_javascript_variables() {
@@ -203,7 +206,7 @@ class SiteOrigin_Widget_SocialMediaButtons_Widget extends SiteOrigin_Widget {
 	}
 
 	function less_generate_calls_to( $instance, $args ) {
-		$networks = isset( $instance['networks'] ) && ! empty( $instance['networks'] ) ? $instance['networks'] : array();
+		$networks = $this->get_instance_networks( $instance );
 		$calls    = array();
 		foreach ( $networks as $network ) {
 			$calls[] = $args[0] . '(' . $network['name'] . ', ' . $network['icon_color'] . ', ' . $network['button_color'] . ');';
@@ -214,8 +217,17 @@ class SiteOrigin_Widget_SocialMediaButtons_Widget extends SiteOrigin_Widget {
 
 	function get_template_variables( $instance, $args ) {
 		return array(
-			'networks' => isset( $instance['networks'] ) ? $instance['networks'] : array()
+			'networks' => $this->get_instance_networks( $instance )
 		);
+	}
+
+	private function get_instance_networks( $instance ) {
+		if ( isset( $instance['networks'] ) && ! empty( $instance['networks'] ) ) {
+			$networks = $instance['networks'];
+			return apply_filters( 'sow_social_media_buttons_networks', $networks, $instance );
+		} else {
+			return array();
+		}
 	}
 }
 

@@ -12,7 +12,7 @@
 
 		<a <?php foreach($button_attributes as $name => $val) echo $name . '="' . $val . '" ' ?>>
 			<span>
-				<?php echo siteorigin_widget_get_icon('fontawesome-'.$network['name']); ?>
+				<?php echo siteorigin_widget_get_icon( $network['icon_name'] ); ?>
 			</span>
 		</a>
 	<?php endforeach; ?>
