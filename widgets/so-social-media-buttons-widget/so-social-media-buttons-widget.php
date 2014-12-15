@@ -224,10 +224,10 @@ class SiteOrigin_Widget_SocialMediaButtons_Widget extends SiteOrigin_Widget {
 	private function get_instance_networks( $instance ) {
 		if ( isset( $instance['networks'] ) && ! empty( $instance['networks'] ) ) {
 			$networks = $instance['networks'];
-			return apply_filters( 'sow_social_media_buttons_networks', $networks, $instance );
 		} else {
-			return array();
+			$networks = array();
 		}
+		return apply_filters( 'sow_social_media_buttons_networks', $networks, $instance );
 	}
 }
 
