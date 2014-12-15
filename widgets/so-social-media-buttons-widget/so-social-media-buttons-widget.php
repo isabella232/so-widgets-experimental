@@ -14,7 +14,7 @@ class SiteOrigin_Widget_SocialMediaButtons_Widget extends SiteOrigin_Widget {
 
 	function __construct() {
 
-		$this->networks = include plugin_dir_path( __FILE__ ) . 'networks.php';
+		$this->networks = include plugin_dir_path( __FILE__ ) . 'data/networks.php';
 
 		$network_names = array();
 		foreach ( $this->networks as $key => $value ) {
