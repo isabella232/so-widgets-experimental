@@ -62,7 +62,7 @@ class SiteOrigin_Widget_SocialMediaButtons_Widget extends SiteOrigin_Widget {
 				),
 				'design'   => array(
 					'type'   => 'section',
-					'label'  => __( 'Design and layout' ),
+					'label'  => __( 'Design and layout', 'siteorigin-widgets' ),
 					'hide'   => true,
 					'fields' => array(
 						'new_window' => array(
