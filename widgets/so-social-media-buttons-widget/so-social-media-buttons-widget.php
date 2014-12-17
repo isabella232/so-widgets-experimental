@@ -150,8 +150,10 @@ class SiteOrigin_Widget_SocialMediaButtons_Widget extends SiteOrigin_Widget {
 	}
 
 	function modify_instance( $instance ) {
-		foreach ( $instance['networks'] as $name => $network ) {
-			$instance['networks'][$name]['icon_name'] = 'fontawesome-' . $network['name'];
+		if ( ! empty( $instance['networks'] ) ) {
+			foreach ( $instance['networks'] as $name => $network ) {
+				$instance['networks'][$name]['icon_name'] = 'fontawesome-' . $network['name'];
+			}
 		}
 		return $instance;
 	}
