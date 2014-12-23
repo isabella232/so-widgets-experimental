@@ -1,34 +1,5 @@
 (function($){
 
-    window.sowFetchWidgetVariable = function (key, widget, callback) {
-        window.sowVars = window.sowVars || {};
-        window.sowVars[widget] = window.sowVars[widget] || {};
-
-        if (typeof window.sowVars[widget][key] == 'undefined') {
-            //TODO: make this work with admin action.
-            //var data = {
-            //    'action': 'so_widgets_variable',
-            //    'widget': widget,
-            //    'key': key
-            //};
-            //
-            //$.post(
-            //    ajaxurl,
-            //    data,
-            //    function (result) {
-            //        window.sowVars[key] = result;
-            //        callback(window.sowVars[key]);
-            //    },
-            //    'html'
-            //);
-            window.sowVars[widget][key] = window[widget][key];
-            callback(window.sowVars[widget][key]);
-        }
-        else {
-            callback(window.sowVars[widget][key]);
-        }
-    };
-
     // After the form is setup, add some custom stuff.
     $(document).on( 'sowsetupform', '.siteorigin-widget-form[data-class="SiteOrigin_Widget_SocialMediaButtons_Widget"]', function() {
         var $socialMediaForm = $(this);

@@ -159,10 +159,7 @@ class SiteOrigin_Widget_SocialMediaButtons_Widget extends SiteOrigin_Widget {
 	}
 
 	function get_javascript_variables() {
-		$so_social_media_widget_variables = array( 'networks' => $this->networks );
-		wp_localize_script( 'sow-social-media-buttons', 'SiteOrigin_Widget_SocialMediaButtons_Widget', $so_social_media_widget_variables );
-
-		return $so_social_media_widget_variables;
+		return array( 'networks' => $this->networks );
 	}
 
 	function enqueue_admin_scripts() {
